@@ -58,3 +58,4 @@ class DeliveredItems(models.Model):
 
     class Meta:
         verbose_name_plural = "delivered items"
+        
