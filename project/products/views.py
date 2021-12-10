@@ -24,6 +24,8 @@ class WholeSalerListView(generic.ListView):
 
 
 class WholeSalerDetailView(generic.DetailView):
+    model = Wholesaler
+
 
 class ProducerListView(generic.ListView):
     model = Producer
@@ -37,6 +39,8 @@ class ProducerListView(generic.ListView):
 
 
 class ProducerDetailView(generic.DetailView):
+    model = Producer
+
 
 class CategoryListView(generic.ListView):
     model = Category
@@ -50,6 +54,8 @@ class CategoryListView(generic.ListView):
 
 
 class CategoryDetailView(generic.DetailView):
+    model = Category
+
 
 class ProductListView(generic.ListView):
     model = Product
@@ -63,6 +69,8 @@ class ProductListView(generic.ListView):
 
 
 class ProductDetailView(generic.DetailView):
+    model = Product
+
 
 class DeliveredItemsListView(generic.ListView):
     model = DeliveredItems
@@ -76,3 +84,4 @@ class DeliveredItemsListView(generic.ListView):
 
 
 class DeliveredItemsDetailView(generic.DetailView):
+    model = DeliveredItems
