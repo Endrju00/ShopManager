@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 
 
 # Create your models here.
@@ -44,8 +45,8 @@ class Product(models.Model):
 class DeliveredItems(models.Model):
     date = models.DateField(auto_now=False)
     quantity = models.PositiveIntegerField()
-    unit_purchase_price = models.FloatField()
-    unit_selling_price = models.FloatField()
+    unit_purchase_price = models.FloatField(validators=[MinValueValidator(0)])
+    unit_selling_price = models.FloatField(validators=[MinValueValidator(0)])
 
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
