@@ -1,7 +1,9 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 
 from products.models import DeliveredItems
-
+from clients.models import Client
+from employees.models import Employee
 
 # Create your models here.
 class Address(models.Model):
@@ -19,14 +21,14 @@ class Address(models.Model):
 
 
 class Order(models.Model):
-    number = models.PositiveIntegerField(primary_key=True)
+    number = models.AutoField(primary_key=True)
     date = models.DateField()
     status = models.CharField(max_length=100)
     comment = models.TextField(max_length=1000)
 
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
-    # client
-    # employee
+    client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True)
+    employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f'#{self.number} Status: {self.status}'
@@ -40,14 +42,18 @@ class ItemInOrder(models.Model):
 
     def __str__(self):
         return f'{self.delivery.product} in #{self.order.number}'
-
+    
 
 class Payment(models.Model):
     date = models.DateTimeField()
-    amount = models.FloatField()
+    amount = models.FloatField(validators=[MinValueValidator(0)])
 
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f'Payment ({self.amount}$) for #{self.order}'
+    
+    def save(self, *args, **kwargs):
+        self.amount = round(self.amount, 2)
+        super().save(*args, **kwargs)
     
