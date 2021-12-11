@@ -1,5 +1,17 @@
-<h1>{{ object.name }}</h1>
-<p>Code: {{ object.code }}</p>
-<p>Reporter: {{ object.description }}</p>
-<p>Category: {{ object.category }}</p>
-<p>Producer: {{ object.producer }}</p>
+{% extends "base.html" %}
+
+{% block content %}
+  <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
+    <div class="card" style="width: 80%; margin-left: 10%;">
+        <div class="card-body">
+          <h1 class="card-title">{{ object.name }}</h1>
+          <p class="card-text">{{ object.description }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Code:</strong> {{ object.code }}</li>
+          <a class="list-group-item list-group-item-action" href="{% url 'products:category-detail' object.category.id %}"><strong>Category:</strong> {{ object.category }}</a>
+          <a class="list-group-item list-group-item-action" href="{% url 'products:producer-detail' object.producer.id %}"><strong>Producer:</strong> {{ object.producer }}</a>
+        </ul>
+    </div>
+  </div>
+{% endblock %}

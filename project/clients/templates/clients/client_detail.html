@@ -1,6 +1,19 @@
-<h1>{{ object }}</h1>
-<p>Name: {{ object.name }}</p>
-<p>Surname: {{ object.surname }}</p>
-<p>Phone: {{ object.phone_number }}</p>
-<p>Email: {{ object.email }}</p>
-<p>Dicount code: {{ object.discount_card_code }}</p>
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
+        <div class="card" style="width: 80%; margin-left: 10%;">
+            <div class="card-body">
+              <h1 class="card-title">{{ object }}</h1>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Name:</strong> {{ object.name }}</li>
+              <li class="list-group-item"><strong>Surname:</strong> {{ object.surname }}</li>
+              <li class="list-group-item"><strong>Phone:</strong> {{ object.phone_number }}</li>
+              <li class="list-group-item"><strong>Email:</strong> {{ object.email }}</li>
+              <li class="list-group-item"><strong>Discount code:</strong> {{ object.discount_card_code }}</li>
+              <li class="list-group-item">TODO Client's orders</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

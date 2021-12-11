@@ -1,4 +1,16 @@
-<h1>{{ object }}</h1>
-<p>Date: {{ object.date }}</p>
-<p>amount: {{ object.amount }}</p>
-<p>order: {{ object.order }}</p>
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
+        <div class="card" style="width: 80%; margin-left: 10%;">
+            <div class="card-body">
+              <h1 class="card-title">{{ object}}</h1>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Date:</strong> {{ object.date }}</li>
+              <li class="list-group-item"><strong>Amount:</strong> {{ object.amount }}PLN</li>
+              <a class="list-group-item list-group-item-action" href="{% url 'orders:order-detail' object.order.id %}"><strong>Order:</strong> #{{ object.order.id }}</a>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

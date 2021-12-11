@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content%}
+    <div style="width: 90%; margin-left: 5%;">
+        <div class="position-fixed card" style="width: 18rem;">
+            <div class="card-header">
+              Select topic
+            </div>
+            <ul class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action" href="{% url 'clients:client-list' %}">Clients</a>
+            </ul>
+        </div>
+
+        {% include "list.html" %}
+        
+    </div>
+{% endblock %}
