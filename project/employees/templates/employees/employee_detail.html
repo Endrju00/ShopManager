@@ -3,7 +3,7 @@
 {% block content %}
     <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
         <div class="card" style="width: 80%; margin-left: 10%;">
-            <div class="card-body">
+            <div class="card-header">
               <h1 class="card-title">{{ object }}</h1>
             </div>
             <ul class="list-group list-group-flush">
@@ -14,8 +14,21 @@
               <li class="list-group-item"><strong>Salary:</strong> {{ object.salary }}PLN</li>
               <li class="list-group-item"><strong>Hours per week:</strong> {{ object.hours_per_week }}</li>
               <a class="list-group-item list-group-item-action" href="{% url 'employees:position-detail' object.position.id %}"><strong>Position:</strong> {{ object.position }}</a>
-              <li class="list-group-item">TODO Employee's orders</li>
             </ul>
         </div>
+
+        {% if orders %}
+        <br>
+        <div class="card" style="width: 80%; margin-left: 10%;">
+          <div class="card-header">
+            <h1 class="card-title">Orders</h1>
+          </div>
+          <ul class="list-group list-group-flush">
+            {% for order in orders %}
+              <a class="list-group-item list-group-item-action" href="{% url 'orders:order-detail' order.id %}">{{ order }}</a>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

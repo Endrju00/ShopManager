@@ -3,7 +3,7 @@
 {% block content %}
     <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
         <div class="card" style="width: 80%; margin-left: 10%;">
-            <div class="card-body">
+            <div class="card-header">
               <h1 class="card-title">{{ object }}</h1>
               <p class="card-text">{{ object.comment }}</p>
             </div>
@@ -13,9 +13,22 @@
               <a class="list-group-item list-group-item-action" href="{% url 'clients:client-detail' object.client.id %}"><strong>Client:</strong> {{ object.client }}</a>
               <a class="list-group-item list-group-item-action" href="{% url 'orders:address-detail' object.address.id %}"><strong>Address:</strong> Click to see</a>
               <a class="list-group-item list-group-item-action" href="{% url 'employees:employee-detail' object.employee.id %}"><strong>Employee:</strong> {{ object.employee }}</a>
-              <li class="list-group-item"><strong>Items in order, payments for #TODO</li>
             </ul>
         </div>
+
+        {% if items %}
+        <br>
+        <div class="card" style="width: 80%; margin-left: 10%;">
+          <div class="card-header">
+            <h1 class="card-title">Items in order</h1>
+          </div>
+          <ul class="list-group list-group-flush">
+            {% for item in items%}
+              <a class="list-group-item list-group-item-action" href="{% url 'orders:items-detail' item.id %}">{{ item}}</a>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}
 
