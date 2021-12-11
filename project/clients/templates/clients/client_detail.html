@@ -1,6 +1,12 @@
-<h1>{{ object }}</h1>
-<p>Name: {{ object.name }}</p>
-<p>Surname: {{ object.surname }}</p>
-<p>Phone: {{ object.phone_number }}</p>
-<p>Email: {{ object.email }}</p>
-<p>Dicount code: {{ object.discount_card_code }}</p>
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="width: 90%; margin-left: 5%;">
+        <h1>{{ object }}</h1>
+        <p>Name: {{ object.name }}</p>
+        <p>Surname: {{ object.surname }}</p>
+        <p>Phone: {{ object.phone_number }}</p>
+        <p>Email: {{ object.email }}</p>
+        <p>Dicount code: {{ object.discount_card_code }}</p>
+    </div>
+{% endblock %}

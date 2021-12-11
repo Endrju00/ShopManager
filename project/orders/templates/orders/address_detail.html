@@ -1,5 +1,11 @@
-<h1>{{ object }}</h1>
-<p>Street: {{ object.street }} {{object.number}}</p>
-<p>City: {{ object.city}}</p>
-<p>Post code: {{ object.post_code }}</p>
-<p>Country: {{ object.country }}</p>
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="width: 90%; margin-left: 5%;">
+        <h1>{{ object }}</h1>
+        <p>Street: {{ object.street }} {{object.number}}</p>
+        <p>City: {{ object.city}}</p>
+        <p>Post code: {{ object.post_code }}</p>
+        <p>Country: {{ object.country }}</p>
+    </div>
+{% endblock %}

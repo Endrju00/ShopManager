@@ -1,5 +1,11 @@
-<h1>{{ object.name }}</h1>
-<p>Code: {{ object.code }}</p>
-<p>Reporter: {{ object.description }}</p>
-<p>Category: {{ object.category }}</p>
-<p>Producer: {{ object.producer }}</p>
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="width: 90%; margin-left: 5%;">
+        <h1>{{ object.name }}</h1>
+        <p>Code: {{ object.code }}</p>
+        <p>Reporter: {{ object.description }}</p>
+        <p>Category: {{ object.category }}</p>
+        <p>Producer: {{ object.producer }}</p>
+    </div>
+{% endblock %}
