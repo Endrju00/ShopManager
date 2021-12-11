@@ -21,7 +21,6 @@ class Address(models.Model):
 
 
 class Order(models.Model):
-    number = models.AutoField(primary_key=True)
     date = models.DateField()
     status = models.CharField(max_length=100)
     comment = models.TextField(max_length=1000)
@@ -31,7 +30,7 @@ class Order(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f'#{self.number} Status: {self.status}'
+        return f'#{self.id} Status: {self.status}'
 
 
 class ItemInOrder(models.Model):
@@ -41,7 +40,7 @@ class ItemInOrder(models.Model):
     delivery = models.ForeignKey(DeliveredItems, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f'{self.delivery.product} in #{self.order.number}'
+        return f'{self.delivery.product} in #{self.order.id}'
     
 
 class Payment(models.Model):
