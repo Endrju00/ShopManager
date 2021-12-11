@@ -14,6 +14,9 @@ class Address(models.Model):
     def __str__(self):
         return f'{self.street} {self.number} {self.city} {self.country}'
 
+    class Meta:
+        verbose_name_plural = "addresses"
+
 
 class Order(models.Model):
     number = models.PositiveIntegerField(primary_key=True)
@@ -21,7 +24,7 @@ class Order(models.Model):
     status = models.CharField(max_length=100)
     comment = models.TextField(max_length=1000)
 
-    address = models.ForeignKey(Address, on_delete=models.DO_NOTHING)
+    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
     # client
     # employee
 
@@ -33,7 +36,7 @@ class ItemInOrder(models.Model):
     quantity = models.PositiveIntegerField()
     
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    delivery = models.ForeignKey(DeliveredItems, on_delete=models.DO_NOTHING)
+    delivery = models.ForeignKey(DeliveredItems, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f'{self.delivery.product} in #{self.order.number}'
@@ -43,8 +46,8 @@ class Payment(models.Model):
     date = models.DateTimeField()
     amount = models.FloatField()
 
-    order = models.ForeignKey(Order, on_delete=models.DO_NOTHING)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f'Payment ({self.amount}$) for #{self.order.number}'
+        return f'Payment ({self.amount}$) for #{self.order}'
     

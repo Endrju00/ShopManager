@@ -20,7 +20,7 @@ class Producer(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
-    overcategory = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
+    overcategory = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -34,8 +34,8 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=1000, blank=True)
 
-    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
-    producer = models.ForeignKey(Producer, on_delete=models.DO_NOTHING)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    producer = models.ForeignKey(Producer, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
@@ -47,8 +47,8 @@ class DeliveredItems(models.Model):
     unit_purchase_price = models.FloatField()
     unit_selling_price = models.FloatField()
 
-    wholesaler = models.ForeignKey(Wholesaler, on_delete=models.DO_NOTHING)
-    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    wholesaler = models.ForeignKey(Wholesaler, on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
 
     def save(self, *args, **kwargs):
         self.unit_purchase_price = round(self.unit_purchase_price, 2)
