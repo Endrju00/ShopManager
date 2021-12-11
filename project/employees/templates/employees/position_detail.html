@@ -1,10 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div style="width: 90%; margin-left: 5%;">
-        <h1>{{ object }}</h1>
-        <p>Name: {{ object.name }}</p>
-        <p>Salary min: {{ object.salary_min }}</p>
-        <p>Salary max: {{ object.salary_max }}</p>   
+    <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
+        <div class="card" style="width: 80%; margin-left: 10%;">
+            <div class="card-body">
+              <h1 class="card-title">{{ object.name }}</h1>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Salary min:</strong> {{ object.salary_min }}PLN</li>
+              <li class="list-group-item"><strong>Salary max:</strong> {{ object.salary_max }}PLN</li>
+            </ul>
+        </div>
     </div>
 {% endblock %}

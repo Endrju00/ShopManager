@@ -1,13 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div style="width: 90%; margin-left: 5%;">
-        <h1>{{ object }}</h1>
-        <p>Number: {{ object.number }}</p>
-        <p>Date: {{ object.date }}</p>
-        <p>status: {{ object.status }}</p>
-        <p>comment: {{ object.comment }}</p>
-        <p>address: {{ object.address }}</p>
+    <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
+        <div class="card" style="width: 80%; margin-left: 10%;">
+            <div class="card-body">
+              <h1 class="card-title">{{ object }}</h1>
+              <p class="card-text">{{ object.comment }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Date:</strong> {{ object.date }}</li>
+              <li class="list-group-item"><strong>Status:</strong> {{ object.status }}</li>
+              <a class="list-group-item list-group-item-action" href="{% url 'clients:client-detail' object.client.id %}"><strong>Client:</strong> {{ object.client }}</a>
+              <a class="list-group-item list-group-item-action" href="{% url 'orders:address-detail' object.address.id %}"><strong>Address:</strong> Click to see</a>
+              <a class="list-group-item list-group-item-action" href="{% url 'employees:employee-detail' object.employee.id %}"><strong>Employee:</strong> {{ object.employee }}</a>
+              <li class="list-group-item"><strong>Items in order, payments for #TODO</li>
+            </ul>
+        </div>
     </div>
 {% endblock %}
 

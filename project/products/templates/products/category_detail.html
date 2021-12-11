@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div style="width: 90%; margin-left: 5%;">
-        <h1>{{ object.name }}</h1>
-        {% if object.overcategory %}
-            <p>{{object.overcategory}}</p>
-        {% endif %}
+    <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
+        <div class="card" style="width: 80%; margin-left: 10%;">
+            <div class="card-body">
+              <h1 class="card-title">{{ object.name }}</h1>
+              <p class="card-text">{{ object.description }}</p>
+            </div>
+            {% if object.overcategory %}
+                <ul class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-action" href="{% url 'products:category-detail' object.overcategory.id %}"><strong>Overcategory:</strong> {{object.overcategory}}</a>
+                </ul>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

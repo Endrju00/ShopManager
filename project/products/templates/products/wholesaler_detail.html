@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div style="width: 90%; margin-left: 5%;">
-        <h1>{{ object.name }}</h1>
+    <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
+        <div class="card" style="width: 80%; margin-left: 10%;">
+            <div class="card-body">
+              <h1 class="card-title">{{ object.name }}</h1>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
