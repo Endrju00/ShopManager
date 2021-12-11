@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 
 {% block content%}
-    <h1>{{ name }}</h1>
-    <ul>
-    {% for obj in object_list %}
-        <li>{{ obj }}</li>
-    {% empty %}
-        <li>No products yet.</li>
-    {% endfor %}
-    </ul>
+    <div style="width: 90%; margin-left: 5%;">
+        <h1>{{ name }}</h1>
+        <ul>
+            {% for obj in object_list %}
+                <li>{{ obj }}</li>
+            {% empty %}
+                <li>No products yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
