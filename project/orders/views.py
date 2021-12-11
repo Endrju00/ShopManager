@@ -23,6 +23,11 @@ class OrderListView(generic.ListView):
 class OrderDetailView(generic.DetailView):
     model = Order
 
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['items'] = ItemInOrder.objects.filter(order__id=self.kwargs['pk'])
+        return context
+
 
 class ItemInOrderListView(generic.ListView):
     model = ItemInOrder
@@ -37,7 +42,7 @@ class ItemInOrderListView(generic.ListView):
     # TODO Filter by order id
 
 
-class ItemInOrderDetailView(generic.DeleteView):
+class ItemInOrderDetailView(generic.DetailView):
     model = ItemInOrder
 
 
