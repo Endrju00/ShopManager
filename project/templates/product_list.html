@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content%}
+    <div style="width: 90%; margin-left: 5%;">
+        <div class="position-fixed card" style="width: 18rem;">
+            <div class="card-header">
+              Select topic
+            </div>
+            <ul class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action" href="{% url 'products:wholesaler-list'%}">Wholesalers</a>
+                <a class="list-group-item list-group-item-action" href="{% url 'products:producer-list'%}">Producers</a>
+                <a class="list-group-item list-group-item-action" href="{% url 'products:category-list'%}">Categories</a>
+                <a class="list-group-item list-group-item-action" href="{% url 'products:product-list'%}">Products</a>
+                <a class="list-group-item list-group-item-action" href="{% url 'products:delivered-items-list'%}">Delivered Items</a>
+            </ul>
+        </div>
+
+        {% include "list.html" %}
+        
+    </div>
+{% endblock %}

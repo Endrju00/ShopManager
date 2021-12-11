@@ -15,7 +15,7 @@ def index(request):
 class WholeSalerListView(generic.ListView):
     model = Wholesaler
     paginate_by = 20
-    template_name = 'list.html'
+    template_name = 'product_list.html'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
@@ -30,7 +30,7 @@ class WholeSalerDetailView(generic.DetailView):
 class ProducerListView(generic.ListView):
     model = Producer
     paginate_by = 20
-    template_name = 'list.html'
+    template_name = 'product_list.html'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
@@ -45,7 +45,7 @@ class ProducerDetailView(generic.DetailView):
 class CategoryListView(generic.ListView):
     model = Category
     paginate_by = 20
-    template_name = 'list.html'
+    template_name = 'product_list.html'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,7 +60,7 @@ class CategoryDetailView(generic.DetailView):
 class ProductListView(generic.ListView):
     model = Product
     paginate_by = 20
-    template_name = 'list.html'
+    template_name = 'product_list.html'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
@@ -75,7 +75,7 @@ class ProductDetailView(generic.DetailView):
 class DeliveredItemsListView(generic.ListView):
     model = DeliveredItems
     paginate_by = 20
-    template_name = 'list.html'
+    template_name = 'product_list.html'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
