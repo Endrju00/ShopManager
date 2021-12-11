@@ -18,25 +18,25 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Shop Management</a>
+        <div class="container-fluid" style="width: 80%; margin-left: 10;">
+            <a class="navbar-brand" href="{% url 'homepage' %}">Shop Management</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-link" href="#">Products</a>
-                <a class="nav-link" href="#">Orders</a>
-                <a class="nav-link" href="#">Employees</a>
-                <a class="nav-link" href="#">Clients</a>
+                <a class="nav-link" href="{% url 'homepage' %}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'products:product-list' %}">Products</a>
+                <a class="nav-link" href="{% url 'orders:order-list' %}">Orders</a>
+                <a class="nav-link" href="{% url 'employees:employee-list' %}">Employees</a>
+                <a class="nav-link" href="{% url 'clients:client-list' %}">Clients</a>
             </div>
             </div>
         </div>
     </nav>
 
     <div class="content" style="width: 80%; margin-left: 10%;"><br><br>
-        <div class="" style="width: 100%">
+        <div style="width: 100%">
             {% block content %}
             {% endblock %}
         </div>
