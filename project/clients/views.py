@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.urls import reverse
 from django.views import generic
 
 from .models import Client
@@ -23,3 +23,12 @@ class ClientDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['orders'] = Order.objects.filter(employee__id=self.kwargs['pk'])
         return context
+
+
+class ClientCreateView(generic.edit.CreateView):
+    model = Client
+    template_name = 'create_form.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('clients:clients-detail', kwargs={'pk': self.object.id})
