@@ -1,4 +1,4 @@
-# ShopManagementApp
+# ShopManager
 
 
 ## Table of contents
