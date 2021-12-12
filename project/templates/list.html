@@ -1,7 +1,8 @@
-<div class="card" style="width: 55%; margin-left: 25%;">
+<div class="card" style="width: 75%; margin-left: 25%;">
     <ul class="list-group list-group-flush">
         <div class="card-header">
-            <h5 style="margin-bottom: 0;">{{ name }}</h5>
+            <h4 style="margin-bottom: 0; float: left;">{{ name }}</h4>
+            <a href="create/" class="btn btn-sm btn-secondary" style="float: right; width: 15%;"> Add new </a>
           </div>
         {% for obj in object_list %}
             {% if name == 'Products' %}
@@ -11,7 +12,6 @@
             {% endif %}
         {% endfor %}
     </ul>
-    
 </div>
 <nav aria-label="Page navigation example" style="width: 55%; margin-left: 25%; margin-top:2%;">
     <ul class="pagination">

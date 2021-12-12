@@ -1,15 +1,8 @@
-from django.shortcuts import render
+from django.urls import reverse
 from django.views import generic
 
 
-# Create your views here.
-from django.http import HttpResponse
-
 from .models import Category, DeliveredItems, Producer, Product, Wholesaler
-
-
-def index(request):
-    return HttpResponse("Hello, world. You're at the products index.")
 
 
 class WholeSalerListView(generic.ListView):
@@ -30,6 +23,15 @@ class WholeSalerDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['delivered'] = DeliveredItems.objects.filter(wholesaler__id=self.kwargs['pk'])
         return context
+
+    
+class WholesalerCreateView(generic.edit.CreateView):
+    model = Wholesaler
+    template_name = 'create_form.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('products:wholesaler-detail', kwargs={'pk': self.object.id})
 
 
 class ProducerListView(generic.ListView):
@@ -52,6 +54,15 @@ class ProducerDetailView(generic.DetailView):
         return context
 
 
+class ProducerCreateView(generic.edit.CreateView):
+    model = Producer
+    template_name = 'create_form.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('products:producer-detail', kwargs={'pk': self.object.id})
+
+
 class CategoryListView(generic.ListView):
     model = Category
     paginate_by = 10
@@ -66,6 +77,7 @@ class CategoryListView(generic.ListView):
         queryset = Category.objects.filter(overcategory__isnull=True)
         return queryset
 
+
 class CategoryDetailView(generic.DetailView):
     model = Category
 
@@ -74,6 +86,15 @@ class CategoryDetailView(generic.DetailView):
         context['subcategories'] = Category.objects.filter(overcategory__id=self.kwargs['pk'])
         context['products'] = Product.objects.filter(category__id=self.kwargs['pk'])
         return context
+
+
+class CategoryCreateView(generic.edit.CreateView):
+    model = Category
+    template_name = 'create_form.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('products:category-detail', kwargs={'pk': self.object.id})
 
 
 class ProductListView(generic.ListView):
@@ -91,6 +112,15 @@ class ProductDetailView(generic.DetailView):
     model = Product
 
 
+class ProductCreateView(generic.edit.CreateView):
+    model = Product
+    template_name = 'create_form.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('products:product-detail', kwargs={'pk': self.object.code})
+
+
 class DeliveredItemsListView(generic.ListView):
     model = DeliveredItems
     paginate_by = 10
@@ -104,3 +134,12 @@ class DeliveredItemsListView(generic.ListView):
 
 class DeliveredItemsDetailView(generic.DetailView):
     model = DeliveredItems
+
+
+class DeliveredItemsCreateView(generic.edit.CreateView):
+    model = DeliveredItems
+    template_name = 'create_form.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('products:delivered-items-detail', kwargs={'pk': self.object.id})
