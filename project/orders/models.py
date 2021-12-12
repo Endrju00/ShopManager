@@ -14,11 +14,11 @@ class Address(models.Model):
     country = models.CharField(max_length=100)
 
     def __str__(self):
-        return f'{self.street} {self.number} {self.city} {self.country}'
+        return f'{self.country} {self.city} {self.street} {self.number}'
 
     class Meta:
         verbose_name_plural = "addresses"
-        ordering = ['country', 'city', 'number']
+        ordering = ['country', 'city', 'street', 'number']
 
 
 class Order(models.Model):
@@ -65,4 +65,3 @@ class Payment(models.Model):
     
     class Meta:
         ordering = ['-date']
-        
