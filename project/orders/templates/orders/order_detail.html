@@ -11,7 +11,7 @@
               <li class="list-group-item"><strong>Date:</strong> {{ object.date }}</li>
               <li class="list-group-item"><strong>Status:</strong> {{ object.status }}</li>
               <a class="list-group-item list-group-item-action" href="{% url 'clients:client-detail' object.client.id %}"><strong>Client:</strong> {{ object.client }}</a>
-              <a class="list-group-item list-group-item-action" href="{% url 'orders:address-detail' object.address.id %}"><strong>Address:</strong> Click to see</a>
+              <a class="list-group-item list-group-item-action" href="{% url 'orders:address-detail' object.address.id %}"><strong>Address:</strong> {{ object.address }}</a>
               <a class="list-group-item list-group-item-action" href="{% url 'employees:employee-detail' object.employee.id %}"><strong>Employee:</strong> {{ object.employee }}</a>
             </ul>
         </div>
@@ -23,8 +23,22 @@
             <h1 class="card-title">Items in order</h1>
           </div>
           <ul class="list-group list-group-flush">
-            {% for item in items%}
+            {% for item in items %}
               <a class="list-group-item list-group-item-action" href="{% url 'orders:items-detail' item.id %}">{{ item}}</a>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        {% if payments %}
+        <br>
+        <div class="card" style="width: 80%; margin-left: 10%;">
+          <div class="card-header">
+            <h1 class="card-title">Payments</h1>
+          </div>
+          <ul class="list-group list-group-flush">
+            {% for payment in payments %}
+              <a class="list-group-item list-group-item-action" href="{% url 'orders:payment-detail' payment.id %}">{{ payment }}</a>
             {% endfor %}
           </ul>
         </div>

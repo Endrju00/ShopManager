@@ -3,15 +3,38 @@
 {% block content %}
     <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
         <div class="card" style="width: 80%; margin-left: 10%;">
+            <div class="card-header">
+                {% if object.overcategory %}
+                    <h1 class="card-title">{{ object.overcategory }}</h1>
+                {% else %}
+                    <h1 class="card-title">Category</h1>
+                {% endif %}
+            </div>
             <div class="card-body">
-              <h1 class="card-title">{{ object.name }}</h1>
+              <h2 class="card-title" style="margin-bottom: 0;">{{ object.name }}</h2>
               <p class="card-text">{{ object.description }}</p>
             </div>
-            {% if object.overcategory %}
+            {% if subcategories %}
                 <ul class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action" href="{% url 'products:category-detail' object.overcategory.id %}"><strong>Overcategory:</strong> {{object.overcategory}}</a>
+                    {% for category in subcategories %}
+                        <a class="list-group-item list-group-item-action" href="{% url 'products:category-detail' category.id %}"><strong>Subcategory:</strong> {{category}}</a>
+                    {% endfor %}
                 </ul>
             {% endif %}
         </div>
+
+        {% if products %}
+        <br>
+        <div class="card" style="width: 80%; margin-left: 10%;">
+          <div class="card-header">
+            <h1 class="card-title">Products</h1>
+          </div>
+          <ul class="list-group list-group-flush">
+            {% for product in products %}
+              <a class="list-group-item list-group-item-action" href="{% url 'products:product-detail' product.code %}">{{ product }}</a>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

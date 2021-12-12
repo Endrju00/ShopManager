@@ -5,8 +5,22 @@
         <div class="card" style="width: 80%; margin-left: 10%;">
             <div class="card-body">
               <h1 class="card-title">{{ object.name }}</h1>
-              <p class="card-text">{{ object.website }}</p>
+              <a class="card-text" href='https://{{ object.website }}'>{{ object.website }}</a>
             </div>
         </div>
+
+        {% if products %}
+        <br>
+        <div class="card" style="width: 80%; margin-left: 10%;">
+          <div class="card-header">
+            <h1 class="card-title">Products</h1>
+          </div>
+          <ul class="list-group list-group-flush">
+            {% for product in products %}
+              <a class="list-group-item list-group-item-action" href="{% url 'products:product-detail' product.code %}">{{ product }}</a>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

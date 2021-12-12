@@ -3,10 +3,27 @@
 {% block content %}
     <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
         <div class="card" style="width: 80%; margin-left: 10%;">
+            <div class="card-header">
+                <h1 class="card-title">Wholesaler</h1>
+            </div>
             <div class="card-body">
-              <h1 class="card-title">{{ object.name }}</h1>
+              <h2 class="card-title" style="margin-bottom: 0;">{{ object.name }}</h2>
             </div>
         </div>
+
+        {% if delivered %}
+        <br>
+        <div class="card" style="width: 80%; margin-left: 10%;">
+          <div class="card-header">
+            <h1 class="card-title">Delivered Items</h1>
+          </div>
+          <ul class="list-group list-group-flush">
+            {% for items in delivered %}
+              <a class="list-group-item list-group-item-action" href="{% url 'products:delivered-items-detail' items.id %}">{{ items }}</a>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}
 
