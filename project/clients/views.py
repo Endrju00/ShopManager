@@ -8,7 +8,7 @@ from orders.models import Order
 class ClientListView(generic.ListView):
     model = Client
     paginate_by = 10
-    template_name = 'client_list.html'
+    template_name = 'clients/list.html'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)

@@ -8,7 +8,7 @@ from orders.models import Order
 class EmployeeListView(generic.ListView):
     model = Employee
     paginate_by = 10
-    template_name = 'employee_list.html'
+    template_name = 'employees/list.html'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
@@ -27,7 +27,7 @@ class EmployeeDetailView(generic.DetailView):
 class PositionListView(generic.ListView):
     model = Position
     paginate_by = 10
-    template_name = 'employee_list.html'
+    template_name = 'employees/list.html'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)

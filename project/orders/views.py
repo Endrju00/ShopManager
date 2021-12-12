@@ -12,7 +12,7 @@ class AddressDetailView(generic.DetailView):
 class OrderListView(generic.ListView):
     model = Order
     paginate_by = 10
-    template_name = 'order_list.html'
+    template_name = 'orders/list.html'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,7 +33,7 @@ class OrderDetailView(generic.DetailView):
 class ItemInOrderListView(generic.ListView):
     model = ItemInOrder
     paginate_by = 10
-    template_name = 'order_list.html'
+    template_name = 'orders/list.html'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
@@ -48,7 +48,7 @@ class ItemInOrderDetailView(generic.DetailView):
 class PaymentListView(generic.ListView):
     model = Payment
     paginate_by = 10
-    template_name = 'order_list.html'
+    template_name = 'orders/list.html'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
