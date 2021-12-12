@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.urls import reverse
 from django.views import generic
 
 from .models import Employee, Position
@@ -24,6 +24,15 @@ class EmployeeDetailView(generic.DetailView):
         return context
 
 
+class EmployeeCreateView(generic.edit.CreateView):
+    model = Employee
+    template_name = 'create_form.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('employees:employee-detail', kwargs={'pk': self.object.id})
+
+
 class PositionListView(generic.ListView):
     model = Position
     paginate_by = 10
@@ -37,3 +46,12 @@ class PositionListView(generic.ListView):
 
 class PositionDetailView(generic.DetailView):
     model = Position
+
+
+class PositionCreateView(generic.edit.CreateView):
+    model = Position
+    template_name = 'create_form.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('employees:position-detail', kwargs={'pk': self.object.id})

@@ -7,6 +7,9 @@ app_name = 'employees'
 urlpatterns = [
     path('', views.EmployeeListView.as_view(), name='employee-list'),
     path('<int:pk>/', views.EmployeeDetailView.as_view(), name='employee-detail'),
+    path('create/', views.EmployeeCreateView.as_view(), name='employee-create'),
+
     path('positions/', views.PositionListView.as_view(), name='position-list'),
-    path('positions/<int:pk>/', views.PositionDetailView.as_view(), name='position-detail')
+    path('positions/<int:pk>/', views.PositionDetailView.as_view(), name='position-detail'),
+    path('positions/create/', views.PositionCreateView.as_view(), name='position-create'),
 ]

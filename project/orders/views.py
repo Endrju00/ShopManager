@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.urls import reverse
 from django.views import generic
 
 from .models import Address, ItemInOrder, Order, Payment
@@ -7,6 +7,15 @@ from .models import Address, ItemInOrder, Order, Payment
 # Create your views here.
 class AddressDetailView(generic.DetailView):
     model = Address
+
+
+class AddressCreateView(generic.edit.CreateView):
+    model = Address
+    template_name = 'create_form.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('orders:address-detail', kwargs={'pk': self.object.id})
 
 
 class OrderListView(generic.ListView):
@@ -28,6 +37,15 @@ class OrderDetailView(generic.DetailView):
         context['items'] = ItemInOrder.objects.filter(order__id=self.kwargs['pk'])
         context['payments'] = Payment.objects.filter(order__id=self.kwargs['pk'])
         return context
+
+
+class OrderCreateView(generic.edit.CreateView):
+    model = Order
+    template_name = 'create_form.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('orders:order-detail', kwargs={'pk': self.object.id})
 
 
 class ItemInOrderListView(generic.ListView):
@@ -58,3 +76,12 @@ class PaymentListView(generic.ListView):
 
 class PaymentDetailView(generic.DetailView):
     model = Payment
+
+
+class PaymentCreateView(generic.edit.CreateView):
+    model = Payment
+    template_name = 'create_form.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('orders:payment-detail', kwargs={'pk': self.object.id})

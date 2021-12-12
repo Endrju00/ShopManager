@@ -1,10 +1,14 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-    <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
+    <div class="jumbotron" style="width: 70%; margin-left: 15%; font-size:1.2rem;">
+        <h3 class="display-4">Let's create something new...</h3>
+        <br>
         <form method="post">{% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Send message">
+            {{ form|crispy }}
+            <br>
+            <input class='btn btn-secondary btn-lg' type="submit" value="Create" style="width: 100%;">
         </form>
     </div>
 {% endblock %}
