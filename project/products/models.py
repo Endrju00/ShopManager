@@ -67,9 +67,8 @@ class DeliveredItems(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f'{self.product} from {self.wholesaler} {self.date}'
+        return f'{self.date} {self.product} from {self.wholesaler}'
 
     class Meta:
         verbose_name_plural = "delivered items"
         ordering = ['-date']
-        
