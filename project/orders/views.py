@@ -11,7 +11,7 @@ class AddressDetailView(generic.DetailView):
 
 class OrderListView(generic.ListView):
     model = Order
-    paginate_by = 20
+    paginate_by = 10
     template_name = 'order_list.html'
 
     def get_context_data(self,**kwargs):
@@ -26,20 +26,19 @@ class OrderDetailView(generic.DetailView):
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         context['items'] = ItemInOrder.objects.filter(order__id=self.kwargs['pk'])
+        context['payments'] = Payment.objects.filter(order__id=self.kwargs['pk'])
         return context
 
 
 class ItemInOrderListView(generic.ListView):
     model = ItemInOrder
-    paginate_by = 20
+    paginate_by = 10
     template_name = 'order_list.html'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Items in orders'
         return context
-    
-    # TODO Filter by order id
 
 
 class ItemInOrderDetailView(generic.DetailView):
@@ -48,7 +47,7 @@ class ItemInOrderDetailView(generic.DetailView):
 
 class PaymentListView(generic.ListView):
     model = Payment
-    paginate_by = 20
+    paginate_by = 10
     template_name = 'order_list.html'
 
     def get_context_data(self,**kwargs):

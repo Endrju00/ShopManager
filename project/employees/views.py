@@ -7,7 +7,7 @@ from orders.models import Order
 # Create your views here.
 class EmployeeListView(generic.ListView):
     model = Employee
-    paginate_by = 20
+    paginate_by = 10
     template_name = 'employee_list.html'
 
     def get_context_data(self,**kwargs):
@@ -26,7 +26,7 @@ class EmployeeDetailView(generic.DetailView):
 
 class PositionListView(generic.ListView):
     model = Position
-    paginate_by = 20
+    paginate_by = 10
     template_name = 'employee_list.html'
 
     def get_context_data(self,**kwargs):

@@ -26,10 +26,15 @@ class WholeSalerListView(generic.ListView):
 class WholeSalerDetailView(generic.DetailView):
     model = Wholesaler
 
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['delivered'] = DeliveredItems.objects.filter(wholesaler__id=self.kwargs['pk'])
+        return context
+
 
 class ProducerListView(generic.ListView):
     model = Producer
-    paginate_by = 20
+    paginate_by = 10
     template_name = 'product_list.html'
 
     def get_context_data(self,**kwargs):
@@ -40,26 +45,40 @@ class ProducerListView(generic.ListView):
 
 class ProducerDetailView(generic.DetailView):
     model = Producer
+    
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['products'] = Product.objects.filter(producer__id=self.kwargs['pk'])
+        return context
 
 
 class CategoryListView(generic.ListView):
     model = Category
-    paginate_by = 20
+    paginate_by = 10
     template_name = 'product_list.html'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Categories'
         return context
-
+    
+    def get_queryset(self):
+        queryset = Category.objects.filter(overcategory__isnull=True)
+        return queryset
 
 class CategoryDetailView(generic.DetailView):
     model = Category
 
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['subcategories'] = Category.objects.filter(overcategory__id=self.kwargs['pk'])
+        context['products'] = Product.objects.filter(category__id=self.kwargs['pk'])
+        return context
+
 
 class ProductListView(generic.ListView):
     model = Product
-    paginate_by = 20
+    paginate_by = 10
     template_name = 'product_list.html'
 
     def get_context_data(self,**kwargs):
@@ -74,7 +93,7 @@ class ProductDetailView(generic.DetailView):
 
 class DeliveredItemsListView(generic.ListView):
     model = DeliveredItems
-    paginate_by = 20
+    paginate_by = 10
     template_name = 'product_list.html'
 
     def get_context_data(self,**kwargs):
