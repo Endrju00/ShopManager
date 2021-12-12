@@ -18,6 +18,7 @@ class Address(models.Model):
 
     class Meta:
         verbose_name_plural = "addresses"
+        ordering = ['country', 'city', 'number']
 
 
 class Order(models.Model):
@@ -31,6 +32,9 @@ class Order(models.Model):
 
     def __str__(self):
         return f'#{self.id} Status: {self.status}'
+    
+    class Meta:
+        ordering = ['-id']
 
 
 class ItemInOrder(models.Model):
@@ -41,6 +45,9 @@ class ItemInOrder(models.Model):
 
     def __str__(self):
         return f'{self.delivery.product} in #{self.order.id}'
+
+    class Meta:
+        ordering = ['quantity']
     
 
 class Payment(models.Model):
@@ -56,3 +63,6 @@ class Payment(models.Model):
         self.amount = round(self.amount, 2)
         super().save(*args, **kwargs)
     
+    class Meta:
+        ordering = ['-date']
+        

@@ -8,6 +8,9 @@ class Wholesaler(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering = ['name']
 
 
 class Producer(models.Model):
@@ -16,6 +19,9 @@ class Producer(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering = ['name']
 
 
 class Category(models.Model):
@@ -28,6 +34,7 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "categories"
+        ordering = ['name']
     
 
 class Product(models.Model):
@@ -40,6 +47,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']
 
 
 class DeliveredItems(models.Model):
@@ -61,3 +71,5 @@ class DeliveredItems(models.Model):
 
     class Meta:
         verbose_name_plural = "delivered items"
+        ordering = ['-date']
+        

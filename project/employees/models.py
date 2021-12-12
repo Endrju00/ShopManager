@@ -17,6 +17,9 @@ class Position(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name']
+
 
 class Employee(models.Model):
     name = models.CharField(max_length=100)
@@ -33,4 +36,7 @@ class Employee(models.Model):
 
     def __str__(self):
         return f'{self.position} {self.name} {self.surname}'
+    
+    class Meta:
+        ordering = ['position', 'name', 'surname']
          
