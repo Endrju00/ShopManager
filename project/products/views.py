@@ -5,26 +5,27 @@ from django.views import generic
 from .models import Category, DeliveredItems, Producer, Product, Wholesaler
 
 
-class WholeSalerListView(generic.ListView):
+class WholesalerListView(generic.ListView):
     model = Wholesaler
     paginate_by = 20
     template_name = 'products/list.html'
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Wholesalers'
         return context
 
 
-class WholeSalerDetailView(generic.DetailView):
+class WholesalerDetailView(generic.DetailView):
     model = Wholesaler
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['delivered'] = DeliveredItems.objects.filter(wholesaler__id=self.kwargs['pk'])
+        context['delivered'] = DeliveredItems.objects.filter(
+            wholesaler__id=self.kwargs['pk'])
         return context
 
-    
+
 class WholesalerCreateView(generic.edit.CreateView):
     model = Wholesaler
     template_name = 'create_form.html'
@@ -34,12 +35,26 @@ class WholesalerCreateView(generic.edit.CreateView):
         return reverse('products:wholesaler-detail', kwargs={'pk': self.object.id})
 
 
+class WholesalerUpdateView(generic.edit.UpdateView):
+    model = DeliveredItems
+    fields = '__all__'
+    template_name = 'update_form.html'
+
+
+class WholesalerDeleteView(generic.edit.DeleteView):
+    model = Wholesaler
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('products:wholesaler-list')
+
+
 class ProducerListView(generic.ListView):
     model = Producer
     paginate_by = 10
     template_name = 'products/list.html'
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Producers'
         return context
@@ -47,10 +62,11 @@ class ProducerListView(generic.ListView):
 
 class ProducerDetailView(generic.DetailView):
     model = Producer
-    
-    def get_context_data(self,**kwargs):
+
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = Product.objects.filter(producer__id=self.kwargs['pk'])
+        context['products'] = Product.objects.filter(
+            producer__id=self.kwargs['pk'])
         return context
 
 
@@ -63,16 +79,33 @@ class ProducerCreateView(generic.edit.CreateView):
         return reverse('products:producer-detail', kwargs={'pk': self.object.id})
 
 
+class ProducerUpdateView(generic.edit.UpdateView):
+    model = Producer
+    fields = '__all__'
+    template_name = 'update_form.html'
+
+    def get_success_url(self):
+        return reverse('products:producer-detail', kwargs={'pk': self.object.id})
+
+
+class ProducerDeleteView(generic.edit.DeleteView):
+    model = Producer
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('products:producer-list')
+
+
 class CategoryListView(generic.ListView):
     model = Category
     paginate_by = 10
     template_name = 'products/list.html'
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Categories'
         return context
-    
+
     def get_queryset(self):
         queryset = Category.objects.filter(overcategory__isnull=True)
         return queryset
@@ -81,10 +114,12 @@ class CategoryListView(generic.ListView):
 class CategoryDetailView(generic.DetailView):
     model = Category
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['subcategories'] = Category.objects.filter(overcategory__id=self.kwargs['pk'])
-        context['products'] = Product.objects.filter(category__id=self.kwargs['pk'])
+        context['subcategories'] = Category.objects.filter(
+            overcategory__id=self.kwargs['pk'])
+        context['products'] = Product.objects.filter(
+            category__id=self.kwargs['pk'])
         return context
 
 
@@ -97,12 +132,29 @@ class CategoryCreateView(generic.edit.CreateView):
         return reverse('products:category-detail', kwargs={'pk': self.object.id})
 
 
+class CategoryUpdateView(generic.edit.UpdateView):
+    model = Category
+    fields = '__all__'
+    template_name = 'update_form.html'
+
+    def get_success_url(self):
+        return reverse('products:category-detail', kwargs={'pk': self.object.id})
+
+
+class CategoryDeleteView(generic.edit.DeleteView):
+    model = Category
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('products:category-list')
+
+
 class ProductListView(generic.ListView):
     model = Product
     paginate_by = 10
     template_name = 'products/list.html'
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Products'
         return context
@@ -121,12 +173,29 @@ class ProductCreateView(generic.edit.CreateView):
         return reverse('products:product-detail', kwargs={'pk': self.object.code})
 
 
+class ProductUpdateView(generic.edit.UpdateView):
+    model = Product
+    fields = '__all__'
+    template_name = 'update_form.html'
+
+    def get_success_url(self):
+        return reverse('products:product-detail', kwargs={'pk': self.object.code})
+
+
+class ProductDeleteView(generic.edit.DeleteView):
+    model = Product
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('products:product-list')
+
+
 class DeliveredItemsListView(generic.ListView):
     model = DeliveredItems
     paginate_by = 10
     template_name = 'products/list.html'
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Delivered Items'
         return context
@@ -143,3 +212,20 @@ class DeliveredItemsCreateView(generic.edit.CreateView):
 
     def get_success_url(self):
         return reverse('products:delivered-items-detail', kwargs={'pk': self.object.id})
+
+
+class DeliveredItemsUpdateView(generic.edit.UpdateView):
+    model = DeliveredItems
+    fields = '__all__'
+    template_name = 'update_form.html'
+
+    def get_success_url(self):
+        return reverse('products:delivered-items-detail', kwargs={'pk': self.object.id})
+
+
+class DeliveredItemsDeleteView(generic.edit.DeleteView):
+    model = DeliveredItems
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('products:delivered-items-list')

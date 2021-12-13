@@ -4,6 +4,8 @@
     <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
         <div class="card" style="width: 80%; margin-left: 10%;">
             <div class="card-header">
+              <a href="delete/" class="btn btn-danger" style="float: right; width: 15%; margin-top: 1%;"> Delete </a>
+              <a href="update/" class="btn btn-primary" style="float: right; width: 15%; margin-right: 2%; margin-top: 1%;"> Update </a>
               <h1 class="card-title">Address</h1>
             </div>
             <ul class="list-group list-group-flush">
@@ -13,5 +15,6 @@
               <li class="list-group-item"><strong>Country:</strong> {{ object.country }}</li>
             </ul>
         </div>
+        <br>
     </div>
 {% endblock %}

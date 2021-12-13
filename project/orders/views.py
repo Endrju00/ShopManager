@@ -19,12 +19,29 @@ class AddressCreateView(generic.edit.CreateView):
         return reverse('orders:order-create')
 
 
+class AddressUpdateView(generic.edit.UpdateView):
+    model = Address
+    fields = '__all__'
+    template_name = 'update_form.html'
+
+    def get_success_url(self):
+        return reverse('orders:address-detail', kwargs={'pk': self.object.id})
+
+
+class AddressDeleteView(generic.edit.DeleteView):
+    model = Address
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('orders:order-list')
+
+
 class OrderListView(generic.ListView):
     model = Order
     paginate_by = 10
     template_name = 'orders/list.html'
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Orders'
         return context
@@ -33,10 +50,12 @@ class OrderListView(generic.ListView):
 class OrderDetailView(generic.DetailView):
     model = Order
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['items'] = ItemInOrder.objects.filter(order__id=self.kwargs['pk'])
-        context['payments'] = Payment.objects.filter(order__id=self.kwargs['pk'])
+        context['items'] = ItemInOrder.objects.filter(
+            order__id=self.kwargs['pk'])
+        context['payments'] = Payment.objects.filter(
+            order__id=self.kwargs['pk'])
         return context
 
 
@@ -49,12 +68,29 @@ class OrderCreateView(generic.edit.CreateView):
         return reverse('orders:items-create')
 
 
+class OrderUpdateView(generic.edit.UpdateView):
+    model = Order
+    fields = '__all__'
+    template_name = 'update_form.html'
+
+    def get_success_url(self):
+        return reverse('orders:order-detail', kwargs={'pk': self.object.id})
+
+
+class OrderDeleteView(generic.edit.DeleteView):
+    model = Order
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('orders:order-list')
+
+
 class ItemInOrderListView(generic.ListView):
     model = ItemInOrder
     paginate_by = 10
     template_name = 'orders/list.html'
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Items in orders'
         return context
@@ -78,8 +114,25 @@ class ItemInOrderCreateView(generic.edit.CreateView):
         self.object = form.save(commit=False)
         self.object.order = Order.objects.latest('id')
         self.object.save()
-        
+
         return HttpResponseRedirect(self.get_success_url())
+
+
+class ItemInOrderUpdateView(generic.edit.UpdateView):
+    model = ItemInOrder
+    fields = '__all__'
+    template_name = 'update_form.html'
+
+    def get_success_url(self):
+        return reverse('orders:items-detail', kwargs={'pk': self.object.id})
+
+
+class ItemInOrderDeleteView(generic.edit.DeleteView):
+    model = ItemInOrder
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('orders:order-list')
 
 
 class PaymentListView(generic.ListView):
@@ -87,7 +140,7 @@ class PaymentListView(generic.ListView):
     paginate_by = 10
     template_name = 'orders/list.html'
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Payments'
         return context
@@ -104,3 +157,20 @@ class PaymentCreateView(generic.edit.CreateView):
 
     def get_success_url(self):
         return reverse('orders:payment-detail', kwargs={'pk': self.object.id})
+
+
+class PaymentUpdateView(generic.edit.UpdateView):
+    model = Payment
+    fields = '__all__'
+    template_name = 'update_form.html'
+
+    def get_success_url(self):
+        return reverse('orders:payment-detail', kwargs={'pk': self.object.id})
+
+
+class PaymentDeleteView(generic.edit.DeleteView):
+    model = Payment
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('orders:payment-list')

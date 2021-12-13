@@ -4,6 +4,8 @@
     <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
         <div class="card" style="width: 80%; margin-left: 10%;">
             <div class="card-header">
+              <a href="delete/" class="btn btn-danger" style="float: right; width: 15%; margin-top: 1%;"> Delete </a>
+              <a href="update/" class="btn btn-primary" style="float: right; width: 15%; margin-right: 2%; margin-top: 1%;"> Update </a>
               <h1 class="card-title">{{ object}}</h1>
             </div>
             <ul class="list-group list-group-flush">
@@ -12,5 +14,6 @@
               <a class="list-group-item list-group-item-action" href="{% url 'orders:order-detail' object.order.id %}"><strong>Order:</strong> #{{ object.order.id }}</a>
             </ul>
         </div>
+        <br>
     </div>
 {% endblock %}
