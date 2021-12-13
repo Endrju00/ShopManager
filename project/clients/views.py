@@ -5,12 +5,14 @@ from .models import Client
 from orders.models import Order
 
 # Create your views here.
+
+
 class ClientListView(generic.ListView):
     model = Client
     paginate_by = 10
     template_name = 'clients/list.html'
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Clients'
         return context
@@ -18,10 +20,11 @@ class ClientListView(generic.ListView):
 
 class ClientDetailView(generic.DetailView):
     model = Client
-    
-    def get_context_data(self,**kwargs):
+
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['orders'] = Order.objects.filter(employee__id=self.kwargs['pk'])
+        context['orders'] = Order.objects.filter(
+            employee__id=self.kwargs['pk'])
         return context
 
 
@@ -41,3 +44,11 @@ class ClientUpdateView(generic.edit.UpdateView):
 
     def get_success_url(self):
         return reverse('clients:client-detail', kwargs={'pk': self.object.id})
+
+
+class ClientDeleteView(generic.edit.DeleteView):
+    model = Client
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('clients:client-list')

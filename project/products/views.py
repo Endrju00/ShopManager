@@ -33,12 +33,20 @@ class WholesalerCreateView(generic.edit.CreateView):
 
     def get_success_url(self):
         return reverse('products:wholesaler-detail', kwargs={'pk': self.object.id})
-        
+
 
 class WholesalerUpdateView(generic.edit.UpdateView):
     model = DeliveredItems
     fields = '__all__'
     template_name = 'update_form.html'
+
+
+class WholesalerDeleteView(generic.edit.DeleteView):
+    model = Wholesaler
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('products:wholesaler-list')
 
 
 class ProducerListView(generic.ListView):
@@ -78,6 +86,14 @@ class ProducerUpdateView(generic.edit.UpdateView):
 
     def get_success_url(self):
         return reverse('products:producer-detail', kwargs={'pk': self.object.id})
+
+
+class ProducerDeleteView(generic.edit.DeleteView):
+    model = Producer
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('products:producer-list')
 
 
 class CategoryListView(generic.ListView):
@@ -125,6 +141,14 @@ class CategoryUpdateView(generic.edit.UpdateView):
         return reverse('products:category-detail', kwargs={'pk': self.object.id})
 
 
+class CategoryDeleteView(generic.edit.DeleteView):
+    model = Category
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('products:category-list')
+
+
 class ProductListView(generic.ListView):
     model = Product
     paginate_by = 10
@@ -158,6 +182,14 @@ class ProductUpdateView(generic.edit.UpdateView):
         return reverse('products:product-detail', kwargs={'pk': self.object.code})
 
 
+class ProductDeleteView(generic.edit.DeleteView):
+    model = Product
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('products:product-list')
+
+
 class DeliveredItemsListView(generic.ListView):
     model = DeliveredItems
     paginate_by = 10
@@ -189,3 +221,11 @@ class DeliveredItemsUpdateView(generic.edit.UpdateView):
 
     def get_success_url(self):
         return reverse('products:delivered-items-detail', kwargs={'pk': self.object.id})
+
+
+class DeliveredItemsDeleteView(generic.edit.DeleteView):
+    model = DeliveredItems
+    template_name = 'delete_form.html'
+
+    def get_success_url(self):
+        return reverse('products:delivered-items-list')

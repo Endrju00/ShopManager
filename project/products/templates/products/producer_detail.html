@@ -4,7 +4,7 @@
     <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
         <div class="card" style="width: 80%; margin-left: 10%;">
             <div class="card-body">
-              <a href="#" class="btn btn-danger" style="float: right; width: 15%; margin-top: 1%;"> Delete </a>
+              <a href="delete/" class="btn btn-danger" style="float: right; width: 15%; margin-top: 1%;"> Delete </a>
               <a href="update/" class="btn btn-primary" style="float: right; width: 15%; margin-right: 2%; margin-top: 1%;"> Update </a>
               <h1 class="card-title">{{ object.name }}</h1>
               <a class="card-text" href='https://{{ object.website }}'>{{ object.website }}</a>
@@ -24,5 +24,6 @@
           </ul>
         </div>
         {% endif %}
+        <br>
     </div>
 {% endblock %}
