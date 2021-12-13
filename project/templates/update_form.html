@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="jumbotron" style="width: 70%; margin-left: 15%; font-size:1.2rem;">
+        <h3 class="display-4">Edit the data.</h3>
+        <br>
+        <form method="post">{% csrf_token %}
+            {{ form|crispy }}
+            <br>
+            <input class='btn btn-primary btn-lg' type="submit" value="Update!" style="width: 100%;">
+        </form>
+    </div>
+{% endblock %}

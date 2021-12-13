@@ -32,3 +32,12 @@ class ClientCreateView(generic.edit.CreateView):
 
     def get_success_url(self):
         return reverse('clients:clients-detail', kwargs={'pk': self.object.id})
+
+
+class ClientUpdateView(generic.edit.UpdateView):
+    model = Client
+    fields = '__all__'
+    template_name = 'update_form.html'
+
+    def get_success_url(self):
+        return reverse('clients:client-detail', kwargs={'pk': self.object.id})

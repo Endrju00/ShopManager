@@ -33,6 +33,15 @@ class EmployeeCreateView(generic.edit.CreateView):
         return reverse('employees:employee-detail', kwargs={'pk': self.object.id})
 
 
+class EmployeeUpdateView(generic.edit.UpdateView):
+    model = Employee
+    fields = '__all__'
+    template_name = 'update_form.html'
+
+    def get_success_url(self):
+        return reverse('employees:employee-detail', kwargs={'pk': self.object.id})
+
+
 class PositionListView(generic.ListView):
     model = Position
     paginate_by = 10
@@ -52,6 +61,15 @@ class PositionCreateView(generic.edit.CreateView):
     model = Position
     template_name = 'create_form.html'
     fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('employees:position-detail', kwargs={'pk': self.object.id})
+
+
+class PositionUpdateView(generic.edit.UpdateView):
+    model = Position
+    fields = '__all__'
+    template_name = 'update_form.html'
 
     def get_success_url(self):
         return reverse('employees:position-detail', kwargs={'pk': self.object.id})

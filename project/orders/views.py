@@ -19,6 +19,15 @@ class AddressCreateView(generic.edit.CreateView):
         return reverse('orders:order-create')
 
 
+class AddressUpdateView(generic.edit.UpdateView):
+    model = Address
+    fields = '__all__'
+    template_name = 'update_form.html'
+
+    def get_success_url(self):
+        return reverse('orders:address-detail', kwargs={'pk': self.object.id})
+
+
 class OrderListView(generic.ListView):
     model = Order
     paginate_by = 10
@@ -47,6 +56,15 @@ class OrderCreateView(generic.edit.CreateView):
 
     def get_success_url(self):
         return reverse('orders:items-create')
+
+
+class OrderUpdateView(generic.edit.UpdateView):
+    model = Order
+    fields = '__all__'
+    template_name = 'update_form.html'
+
+    def get_success_url(self):
+        return reverse('orders:order-detail', kwargs={'pk': self.object.id})
 
 
 class ItemInOrderListView(generic.ListView):
@@ -82,6 +100,15 @@ class ItemInOrderCreateView(generic.edit.CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+class ItemInOrderUpdateView(generic.edit.UpdateView):
+    model = ItemInOrder
+    fields = '__all__'
+    template_name = 'update_form.html'
+
+    def get_success_url(self):
+        return reverse('orders:items-detail', kwargs={'pk': self.object.id})
+
+
 class PaymentListView(generic.ListView):
     model = Payment
     paginate_by = 10
@@ -101,6 +128,15 @@ class PaymentCreateView(generic.edit.CreateView):
     model = Payment
     template_name = 'create_form.html'
     fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('orders:payment-detail', kwargs={'pk': self.object.id})
+
+
+class PaymentUpdateView(generic.edit.UpdateView):
+    model = Payment
+    fields = '__all__'
+    template_name = 'update_form.html'
 
     def get_success_url(self):
         return reverse('orders:payment-detail', kwargs={'pk': self.object.id})
