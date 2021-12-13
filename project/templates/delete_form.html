@@ -8,7 +8,7 @@
         <form method="post">{% csrf_token %}
             {{ form|crispy }}
             <h4 class="font-weight-light">Are you trying to delete object named "{{ object }}"?</h4>
-            <input class='btn btn-danger btn-lg' type="submit" value="Confirm" style="width: 100%;">
+            <input class='btn btn-danger btn-lg' type="submit" value="Yes, I want to do it." style="width: 100%;">
         </form>
     </div>
 {% endblock %}

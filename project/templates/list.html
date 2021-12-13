@@ -1,8 +1,12 @@
 <div class="card" style="width: 75%; margin-left: 25%;">
     <ul class="list-group list-group-flush">
         <div class="card-header">
-            <h4 style="margin-bottom: 0; float: left;">{{ name }}</h4>
-            <a href="create/" class="btn btn-sm btn-secondary" style="float: right; width: 15%;"> Add new </a>
+            <h3 style="margin-bottom: 0; float: left;">{{ name }}</h3>
+            <div class="input-group mb-3" style="width: 40%; height:20%; float:right;">
+                <input type="text" class="form-control btn-sm" placeholder="Search for..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary btn-sm" type="button" id="button-addon2"><span class="fa fa-search"></span></button>
+                <a href="create/" class="btn btn-sm btn-secondary" style="float: right; margin-left: 2%;"><span class="fa fa-plus" style="margin-top: 7px;"></span></a>
+            </div>
           </div>
         {% for obj in object_list %}
             {% if name == 'Products' %}
