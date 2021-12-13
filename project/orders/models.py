@@ -9,11 +9,11 @@ from employees.models import Employee
 
 
 class Address(models.Model):
-    city = models.CharField(max_length=100)
-    street = models.CharField(max_length=100)
-    number = models.PositiveIntegerField()
-    post_code = models.CharField(max_length=6)
-    country = models.CharField(max_length=100)
+    city = models.CharField(max_length=100, help_text="Please pass the name of the city.")
+    street = models.CharField(max_length=100, help_text="Please pass the name of the street.")
+    number = models.PositiveIntegerField(help_text="Please pass the number of a house.")
+    post_code = models.CharField(max_length=6, help_text="Please pass the postal code.")
+    country = models.CharField(max_length=100, help_text="Please pass the name of the copuntry.")
 
     def __str__(self):
         return f'{self.country} {self.city} {self.street} {self.number}'
@@ -24,14 +24,14 @@ class Address(models.Model):
 
 
 class Order(models.Model):
-    date = models.DateField()
-    status = models.CharField(max_length=100)
-    comment = models.TextField(max_length=1000)
+    date = models.DateField(help_text="Please pass the date in YYYY-MM-DD format.")
+    status = models.CharField(max_length=100, help_text="Please pass the status of the order.")
+    comment = models.TextField(max_length=1000, blank=True, null=True, help_text="Optional: Please add some comments.")
 
-    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
-    client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True)
+    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, help_text="Please choose the address.")
+    client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True, help_text="Please select the client. If client do not exist define the client in Clients section.")
     employee = models.ForeignKey(
-        Employee, on_delete=models.SET_NULL, null=True)
+        Employee, on_delete=models.SET_NULL, null=True, help_text="Please select the employee responsible for the order.")
 
     def __str__(self):
         return f'#{self.id} Status: {self.status}'
@@ -41,11 +41,11 @@ class Order(models.Model):
 
 
 class ItemInOrder(models.Model):
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(help_text="Please define quantity of product.")
 
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     delivery = models.ForeignKey(
-        DeliveredItems, on_delete=models.SET_NULL, null=True)
+        DeliveredItems, on_delete=models.SET_NULL, null=True, help_text="Please select the delivery of the product.")
 
     def __str__(self):
         return f'{self.delivery.product} in #{self.order.id}'
@@ -55,10 +55,10 @@ class ItemInOrder(models.Model):
 
 
 class Payment(models.Model):
-    date = models.DateTimeField()
-    amount = models.FloatField(validators=[MinValueValidator(0)])
+    date = models.DateTimeField(help_text="Please pass the date of the payment.")
+    amount = models.FloatField(validators=[MinValueValidator(0)],  help_text="Please pass the amount of the payment.")
 
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True,  help_text="Please select the order for which the payment was made.")
 
     def __str__(self):
         return f'{self.date} Payment for order #{self.order.id}'
