@@ -6,6 +6,8 @@ from clients.models import Client
 from employees.models import Employee
 
 # Create your models here.
+
+
 class Address(models.Model):
     city = models.CharField(max_length=100)
     street = models.CharField(max_length=100)
@@ -28,27 +30,29 @@ class Order(models.Model):
 
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
     client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True)
-    employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
+    employee = models.ForeignKey(
+        Employee, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f'#{self.id} Status: {self.status}'
-    
+
     class Meta:
         ordering = ['-id']
 
 
 class ItemInOrder(models.Model):
     quantity = models.PositiveIntegerField()
-    
+
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    delivery = models.ForeignKey(DeliveredItems, on_delete=models.SET_NULL, null=True)
+    delivery = models.ForeignKey(
+        DeliveredItems, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f'{self.delivery.product} in #{self.order.id}'
 
     class Meta:
         ordering = ['quantity']
-    
+
 
 class Payment(models.Model):
     date = models.DateTimeField()
@@ -57,11 +61,11 @@ class Payment(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f'Payment for order #{self.order.id}'
-    
+        return f'{self.date} Payment for order #{self.order.id}'
+
     def save(self, *args, **kwargs):
         self.amount = round(self.amount, 2)
         super().save(*args, **kwargs)
-    
+
     class Meta:
         ordering = ['-date']

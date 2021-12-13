@@ -1,5 +1,7 @@
 from django.urls import reverse
 from django.views import generic
+from django.shortcuts import render
+from django.db.models import Q
 
 from .models import Employee, Position
 from orders.models import Order
@@ -16,6 +18,15 @@ class EmployeeListView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Employees'
         return context
+    
+    def post(self, request, *args, **kwargs):
+        search = self.request.POST.get('search')
+        context = {
+            'object_list': self.model.objects.filter(Q(name__contains=search) | Q(surname__contains=search)),
+            'name': self.model.__name__ + 's',
+            'results': f'Results for \"{search}\"'
+        }
+        return render(request, self.template_name, context=context)
 
 
 class EmployeeDetailView(generic.DetailView):
@@ -63,6 +74,15 @@ class PositionListView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Positions'
         return context
+
+    def post(self, request, *args, **kwargs):
+        search = self.request.POST.get('search')
+        context = {
+            'object_list': self.model.objects.filter(name__contains=search),
+            'name': self.model.__name__ + 's',
+            'results': f'Results for \"{search}\"'
+        }
+        return render(request, self.template_name, context=context)
 
 
 class PositionDetailView(generic.DetailView):

@@ -1,5 +1,7 @@
 from django.urls import reverse
+from django.shortcuts import render
 from django.views import generic
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 
 from .models import Address, ItemInOrder, Order, Payment
@@ -45,6 +47,15 @@ class OrderListView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Orders'
         return context
+
+    def post(self, request, *args, **kwargs):
+        search = self.request.POST.get('search')
+        context = {
+            'object_list': self.model.objects.filter(Q(status__contains=search) | Q(client__name__contains=search) | Q(employee__name__contains=search) | Q(id__contains=search)),
+            'name': self.model.__name__ + 's',
+            'results': f'Results for \"{search}\"'
+        }
+        return render(request, self.template_name, context=context)
 
 
 class OrderDetailView(generic.DetailView):
@@ -144,6 +155,15 @@ class PaymentListView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Payments'
         return context
+
+    def post(self, request, *args, **kwargs):
+        search = self.request.POST.get('search')
+        context = {
+            'object_list': self.model.objects.filter(date__contains=search),
+            'name': self.model.__name__ + 's',
+            'results': f'Results for \"{search}\"'
+        }
+        return render(request, self.template_name, context=context)
 
 
 class PaymentDetailView(generic.DetailView):

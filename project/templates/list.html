@@ -1,12 +1,20 @@
 <div class="card" style="width: 75%; margin-left: 25%;">
     <ul class="list-group list-group-flush">
         <div class="card-header">
-            <h3 style="margin-bottom: 0; float: left;">{{ name }}</h3>
-            <div class="input-group mb-3" style="width: 40%; height:20%; float:right;">
-                <input type="text" class="form-control btn-sm" placeholder="Search for..." aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button class="btn btn-outline-secondary btn-sm" type="button" id="button-addon2"><span class="fa fa-search"></span></button>
-                <a href="create/" class="btn btn-sm btn-secondary" style="float: right; margin-left: 2%;"><span class="fa fa-plus" style="margin-top: 7px;"></span></a>
-            </div>
+            
+            {% if results %}
+                <h3>{{ name }}</h3>
+                <h4 class="font-weight-light" style="float: left; margin-bottom: 0;">{{ results }}</h4>
+            {% else %}
+                <h3 style="float:left; margin-bottom: 0;">{{ name }}</h3>
+            {% endif %}
+            <form method="post">{% csrf_token %}
+                <div class="input-group mb-3" style="width: 40%; height:20%; float:right;">
+                    <input type="text" class="form-control btn-sm" placeholder="Search for..." aria-label="Recipient's username" aria-describedby="button-addon2" style="width: 70%; float: left;" name="search" maxlength="20">
+                    <button class="btn btn-outline-secondary btn-sm" type="submit" id="button-addon2" style="float: right;"><span class="fa fa-search"></span></button>
+                    <a href="create/" class="btn btn-sm btn-secondary" style="float: right; margin-left: 2%;"><span class="fa fa-plus" style="margin-top: 7px;"></span></a>
+                </div>
+            </form>
           </div>
         {% for obj in object_list %}
             {% if name == 'Products' %}

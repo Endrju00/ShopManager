@@ -1,5 +1,7 @@
 from django.urls import reverse
 from django.views import generic
+from django.shortcuts import render
+from django.db.models import Q
 
 
 from .models import Category, DeliveredItems, Producer, Product, Wholesaler
@@ -14,6 +16,15 @@ class WholesalerListView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Wholesalers'
         return context
+
+    def post(self, request, *args, **kwargs):
+        search = self.request.POST.get('search')
+        context = {
+            'object_list': self.model.objects.filter(name__contains=search),
+            'name': self.model.__name__ + 's',
+            'results': f'Results for \"{search}\"'
+        }
+        return render(request, self.template_name, context=context)
 
 
 class WholesalerDetailView(generic.DetailView):
@@ -58,6 +69,15 @@ class ProducerListView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Producers'
         return context
+
+    def post(self, request, *args, **kwargs):
+        search = self.request.POST.get('search')
+        context = {
+            'object_list': self.model.objects.filter(name__contains=search),
+            'name': self.model.__name__ + 's',
+            'results': f'Results for \"{search}\"'
+        }
+        return render(request, self.template_name, context=context)
 
 
 class ProducerDetailView(generic.DetailView):
@@ -110,6 +130,15 @@ class CategoryListView(generic.ListView):
         queryset = Category.objects.filter(overcategory__isnull=True)
         return queryset
 
+    def post(self, request, *args, **kwargs):
+        search = self.request.POST.get('search')
+        context = {
+            'object_list': self.model.objects.filter(name__contains=search),
+            'name': 'Categories',
+            'results': f'Results for \"{search}\"'
+        }
+        return render(request, self.template_name, context=context)
+
 
 class CategoryDetailView(generic.DetailView):
     model = Category
@@ -156,8 +185,17 @@ class ProductListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['name'] = 'Products'
+        context['name'] = self.model.__name__ + 's'
         return context
+
+    def post(self, request, *args, **kwargs):
+        search = self.request.POST.get('search')
+        context = {
+            'object_list': self.model.objects.filter(name__contains=search),
+            'name': self.model.__name__ + 's',
+            'results': f'Results for \"{search}\"'
+        }
+        return render(request, self.template_name, context=context)
 
 
 class ProductDetailView(generic.DetailView):
@@ -199,6 +237,16 @@ class DeliveredItemsListView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Delivered Items'
         return context
+
+    def post(self, request, *args, **kwargs):
+        search = self.request.POST.get('search')
+        context = {
+            'object_list': self.model.objects.filter(
+                Q(date__contains=search) | Q(product__name__contains=search) | Q(wholesaler__name__contains=search)),
+            'name': self.model.__name__,
+            'results': f'Results for \"{search}\"'
+        }
+        return render(request, self.template_name, context=context)
 
 
 class DeliveredItemsDetailView(generic.DetailView):
