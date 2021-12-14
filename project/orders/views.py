@@ -72,7 +72,7 @@ class OrderDetailView(generic.DetailView):
             cursor.execute(f"SELECT CenaZamowienia ({self.kwargs['pk']})")
             data = cursor.fetchone()
             context['price'] = data
-            print(context['price'])
+            cursor.close()
         return context
 
 
