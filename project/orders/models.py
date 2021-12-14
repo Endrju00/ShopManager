@@ -21,6 +21,7 @@ class Address(models.Model):
     class Meta:
         verbose_name_plural = "addresses"
         ordering = ['country', 'city', 'street', 'number']
+        unique_together = (('city', 'street', 'number', 'post_code', 'country'),)
 
 
 class Order(models.Model):
@@ -52,6 +53,7 @@ class ItemInOrder(models.Model):
 
     class Meta:
         ordering = ['quantity']
+        unique_together = (('delivery', 'order'),)
 
 
 class Payment(models.Model):
@@ -69,3 +71,4 @@ class Payment(models.Model):
 
     class Meta:
         ordering = ['-date']
+        unique_together = (('date', 'order'),)

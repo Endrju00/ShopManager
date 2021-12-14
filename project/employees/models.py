@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator
 
 # Create your models here.
 class Position(models.Model):
-    name = models.CharField(max_length=100, help_text="Please pass the name of the position.")
+    name = models.CharField(max_length=100, help_text="Please pass the name of the position.", unique=True)
     salary_min = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the minimum wage on this position.")
     salary_max = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the maximum wage on this position.")
 

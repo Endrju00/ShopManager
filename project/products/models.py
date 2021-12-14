@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator
 
 # Create your models here.
 class Wholesaler(models.Model):
-    name = models.CharField(max_length=100, help_text="Please pass the name of the wholesaler.")
+    name = models.CharField(max_length=100, help_text="Please pass the name of the wholesaler.", unique=True)
 
     def __str__(self):
         return self.name
@@ -14,7 +14,7 @@ class Wholesaler(models.Model):
 
 
 class Producer(models.Model):
-    name = models.CharField(max_length=100, help_text="Please pass the name of the producer.")
+    name = models.CharField(max_length=100, help_text="Please pass the name of the producer.", unique=True)
     website = models.CharField(max_length=100, help_text="Please pass the website of the producer.")
 
     def __str__(self):
@@ -25,7 +25,7 @@ class Producer(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, help_text="Please pass the name of the category.")
+    name = models.CharField(max_length=100, help_text="Please pass the name of the category.", unique=True)
 
     overcategory = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, help_text="Optional: Please select an overcategory.")
 
@@ -72,3 +72,4 @@ class DeliveredItems(models.Model):
     class Meta:
         verbose_name_plural = "delivered items"
         ordering = ['-date']
+        unique_together = (('date', 'wholesaler', 'product'),)
