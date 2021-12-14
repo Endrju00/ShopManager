@@ -1,14 +1,14 @@
 from django.urls import reverse
 from django.views import generic
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.db.models import Q
+from django.db import connection
 
 from .models import Employee, Position
 from orders.models import Order
 
+
 # Create your views here.
-
-
 class EmployeeListView(generic.ListView):
     model = Employee
     paginate_by = 10
@@ -18,7 +18,7 @@ class EmployeeListView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Employees'
         return context
-    
+
     def post(self, request, *args, **kwargs):
         search = self.request.POST.get('search')
         context = {
@@ -37,6 +37,20 @@ class EmployeeDetailView(generic.DetailView):
         context['orders'] = Order.objects.filter(
             employee__id=self.kwargs['pk'])
         return context
+
+    def post(self, request, *args, **kwargs):
+        if self.request.POST.get('procedure'):
+            e = Employee.objects.get(id=self.kwargs['pk'])
+            if e.salary + 100 < e.position.salary_max:
+                with connection.cursor() as cursor:
+                    cursor.execute(f"call podwyzka({self.kwargs['pk']}, 100)")
+                    cursor.close()
+
+        context = {
+            'object': Employee.objects.get(id=self.kwargs['pk'])
+        }
+
+        return render(request, template_name='employees/employee_detail.html', context=context)
 
 
 class EmployeeCreateView(generic.edit.CreateView):

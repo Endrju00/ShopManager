@@ -2,6 +2,7 @@ from django.urls import reverse
 from django.shortcuts import render
 from django.views import generic
 from django.db.models import Q
+from django.db import connection
 from django.http import HttpResponseRedirect
 
 from .models import Address, ItemInOrder, Order, Payment
@@ -67,6 +68,11 @@ class OrderDetailView(generic.DetailView):
             order__id=self.kwargs['pk'])
         context['payments'] = Payment.objects.filter(
             order__id=self.kwargs['pk'])
+        with connection.cursor() as cursor:
+            cursor.execute(f"SELECT CenaZamowienia ({self.kwargs['pk']})")
+            data = cursor.fetchone()
+            context['price'] = data
+            print(context['price'])
         return context
 
 

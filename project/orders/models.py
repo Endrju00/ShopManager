@@ -48,7 +48,7 @@ class ItemInOrder(models.Model):
         DeliveredItems, on_delete=models.SET_NULL, null=True, help_text="Please select the delivery of the product.")
 
     def __str__(self):
-        return f'{self.delivery.product} in #{self.order.id}'
+        return f'{self.quantity}x {self.delivery.product} for {self.delivery.unit_selling_price} PLN'
 
     class Meta:
         ordering = ['quantity']
@@ -61,7 +61,7 @@ class Payment(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True,  help_text="Please select the order for which the payment was made.")
 
     def __str__(self):
-        return f'{self.date} Payment for order #{self.order.id}'
+        return f'Payment #{self.id} for order #{self.order.id}'
 
     def save(self, *args, **kwargs):
         self.amount = round(self.amount, 2)
