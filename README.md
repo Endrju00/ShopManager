@@ -26,22 +26,22 @@ The application is used to manage the store. This system will enable the storage
 * CSS3
 
 ## First configuration
-1. Install prerequisites
+1. Install prerequisites.
 > pip install -r requirements.txt
-2. [Download](https://downloads.mariadb.org/) and install MariaDB
+2. [Download](https://downloads.mariadb.org/) and install MariaDB.
 3. Set password, name of the db and port in project/project/settings.py
 4. Add new environment variable to Path: *your_path_to*\MariaDB 10.6\bin
-5. Restart cmd and run
+5. Restart cmd and run:
 > mysql -u root -p
-6. Create and configure database
+6. Create and configure database.
 > CREATE DATABASE shopmanager_db;
 
 > exit 
-7. Create function and procedure from diagrams/relationship_diagram/procedura_funkcja_mysql.sql
+7. Create function and procedure:
 > mysql -u root -p shopmanager_db < help.sql
 
 > exit
-9. Migrate
+9. Migrate:
 > python manage.py migrate
-10. Run the application
+10. Run the application:
 > python manage.py runserver
