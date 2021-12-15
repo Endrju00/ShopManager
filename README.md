@@ -34,13 +34,11 @@ The application is used to manage the store. This system will enable the storage
 > mysql -u root -p
 6. Create and configure database
 > CREATE DATABASE shopmanager_db;
-> 
-> USE shopmanager_db;
+
+> exit 
 7. Create function and procedure from diagrams/relationship_diagram/procedura_funkcja_mysql.sql
-> CREATE OR REPLACE FUNCTION...
-> 
-> CREATE OR REPLACE PROCEDURE...
-> 
+> mysql -u root -p shopmanager_db < help.sql
+
 > exit
 9. Migrate
 > python manage.py migrate
