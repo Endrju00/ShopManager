@@ -24,5 +24,3 @@ BEGIN
 END; //
 
 DELIMITER ;
-
-SELECT CenaZamowienia (3);
