@@ -4,6 +4,7 @@ from django.views import generic
 from django.db.models import Q
 from django.db import connection
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 from .models import Address, ItemInOrder, Order, Payment
 
@@ -19,6 +20,7 @@ class AddressCreateView(generic.edit.CreateView):
     fields = '__all__'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Address was created successfully.')
         return reverse('orders:order-create')
 
 
@@ -28,6 +30,7 @@ class AddressUpdateView(generic.edit.UpdateView):
     template_name = 'update_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Address was updated successfully.')
         return reverse('orders:address-detail', kwargs={'pk': self.object.id})
 
 
@@ -36,6 +39,7 @@ class AddressDeleteView(generic.edit.DeleteView):
     template_name = 'delete_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Address was deleted successfully.')
         return reverse('orders:order-list')
 
 
@@ -82,6 +86,7 @@ class OrderCreateView(generic.edit.CreateView):
     fields = '__all__'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Order was created successfully.')
         return reverse('orders:items-create')
 
 
@@ -91,6 +96,7 @@ class OrderUpdateView(generic.edit.UpdateView):
     template_name = 'update_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Order was updated successfully.')
         return reverse('orders:order-detail', kwargs={'pk': self.object.id})
 
 
@@ -99,6 +105,7 @@ class OrderDeleteView(generic.edit.DeleteView):
     template_name = 'delete_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Order was deleted successfully.')
         return reverse('orders:order-list')
 
 
@@ -123,6 +130,7 @@ class ItemInOrderCreateView(generic.edit.CreateView):
     fields = ['quantity', 'delivery']
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Item was created and added to order successfully.')
         if self.request.POST.get('first') == 'Add another one...':
             return reverse('orders:items-create')
         return reverse('orders:order-detail', kwargs={'pk': self.object.order.id})
@@ -141,6 +149,7 @@ class ItemInOrderUpdateView(generic.edit.UpdateView):
     template_name = 'update_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Item in order was updated successfully.')
         return reverse('orders:items-detail', kwargs={'pk': self.object.id})
 
 
@@ -149,6 +158,7 @@ class ItemInOrderDeleteView(generic.edit.DeleteView):
     template_name = 'delete_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Item was deleted successfully.')
         return reverse('orders:order-list')
 
 
@@ -182,6 +192,7 @@ class PaymentCreateView(generic.edit.CreateView):
     fields = '__all__'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Payment was created successfully.')
         return reverse('orders:payment-detail', kwargs={'pk': self.object.id})
 
 
@@ -191,6 +202,7 @@ class PaymentUpdateView(generic.edit.UpdateView):
     template_name = 'update_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Payment was updated successfully.')
         return reverse('orders:payment-detail', kwargs={'pk': self.object.id})
 
 
@@ -199,4 +211,5 @@ class PaymentDeleteView(generic.edit.DeleteView):
     template_name = 'delete_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Payment was deleted successfully.')
         return reverse('orders:payment-list')

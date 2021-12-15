@@ -2,6 +2,7 @@ from django.urls import reverse
 from django.views import generic
 from django.shortcuts import render
 from django.db.models import Q
+from django.contrib import messages
 
 
 from .models import Category, DeliveredItems, Producer, Product, Wholesaler
@@ -43,13 +44,18 @@ class WholesalerCreateView(generic.edit.CreateView):
     fields = '__all__'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Wholesaler was created successfully.')
         return reverse('products:wholesaler-detail', kwargs={'pk': self.object.id})
 
 
 class WholesalerUpdateView(generic.edit.UpdateView):
-    model = DeliveredItems
+    model = Wholesaler
     fields = '__all__'
     template_name = 'update_form.html'
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Wholesaler was updated successfully.')
+        return reverse('products:wholesaler-detail', kwargs={'pk': self.object.id})
 
 
 class WholesalerDeleteView(generic.edit.DeleteView):
@@ -57,6 +63,7 @@ class WholesalerDeleteView(generic.edit.DeleteView):
     template_name = 'delete_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Wholesaler was deleted successfully.')
         return reverse('products:wholesaler-list')
 
 
@@ -96,6 +103,7 @@ class ProducerCreateView(generic.edit.CreateView):
     fields = '__all__'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Producer was created successfully.')
         return reverse('products:producer-detail', kwargs={'pk': self.object.id})
 
 
@@ -105,6 +113,7 @@ class ProducerUpdateView(generic.edit.UpdateView):
     template_name = 'update_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Producer was updated successfully.')
         return reverse('products:producer-detail', kwargs={'pk': self.object.id})
 
 
@@ -113,6 +122,7 @@ class ProducerDeleteView(generic.edit.DeleteView):
     template_name = 'delete_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Producer was deleted successfully.')
         return reverse('products:producer-list')
 
 
@@ -158,6 +168,7 @@ class CategoryCreateView(generic.edit.CreateView):
     fields = '__all__'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Category was created successfully.')
         return reverse('products:category-detail', kwargs={'pk': self.object.id})
 
 
@@ -167,6 +178,7 @@ class CategoryUpdateView(generic.edit.UpdateView):
     template_name = 'update_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Category was updated successfully.')
         return reverse('products:category-detail', kwargs={'pk': self.object.id})
 
 
@@ -175,6 +187,7 @@ class CategoryDeleteView(generic.edit.DeleteView):
     template_name = 'delete_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Category was deleted successfully.')
         return reverse('products:category-list')
 
 
@@ -208,6 +221,7 @@ class ProductCreateView(generic.edit.CreateView):
     fields = '__all__'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Product was created successfully.')
         return reverse('products:product-detail', kwargs={'pk': self.object.code})
 
 
@@ -217,6 +231,7 @@ class ProductUpdateView(generic.edit.UpdateView):
     template_name = 'update_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Product was updated successfully.')
         return reverse('products:product-detail', kwargs={'pk': self.object.code})
 
 
@@ -225,6 +240,7 @@ class ProductDeleteView(generic.edit.DeleteView):
     template_name = 'delete_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Product was deleted successfully.')
         return reverse('products:product-list')
 
 
@@ -259,6 +275,7 @@ class DeliveredItemsCreateView(generic.edit.CreateView):
     fields = '__all__'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Delivery was created successfully.')
         return reverse('products:delivered-items-detail', kwargs={'pk': self.object.id})
 
 
@@ -268,6 +285,7 @@ class DeliveredItemsUpdateView(generic.edit.UpdateView):
     template_name = 'update_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Delivery was updated successfully.')
         return reverse('products:delivered-items-detail', kwargs={'pk': self.object.id})
 
 
@@ -276,4 +294,5 @@ class DeliveredItemsDeleteView(generic.edit.DeleteView):
     template_name = 'delete_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Delivery was deleted successfully.')
         return reverse('products:delivered-items-list')

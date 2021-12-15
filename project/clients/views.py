@@ -2,6 +2,7 @@ from django.urls import reverse
 from django.views import generic
 from django.shortcuts import render
 from django.db.models import Q
+from django.contrib import messages
 
 from .models import Client
 from orders.models import Order
@@ -45,6 +46,7 @@ class ClientCreateView(generic.edit.CreateView):
     fields = '__all__'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Client was created successfully.')
         return reverse('clients:client-detail', kwargs={'pk': self.object.id})
 
 
@@ -54,6 +56,7 @@ class ClientUpdateView(generic.edit.UpdateView):
     template_name = 'update_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Client was updated successfully.')
         return reverse('clients:client-detail', kwargs={'pk': self.object.id})
 
 
@@ -62,4 +65,5 @@ class ClientDeleteView(generic.edit.DeleteView):
     template_name = 'delete_form.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Client was deleted successfully.')
         return reverse('clients:client-list')

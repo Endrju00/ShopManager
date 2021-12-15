@@ -34,11 +34,39 @@
             </div>
         </div>
     </nav><br><br>
-
+    
     <div class="content" style="width: 80%; margin-left: 10%;"><br><br>
         <div style="width: 100%">
-            {% block content %}
-            {% endblock %}
+
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
+                            <div id="liveToast" class="toast" data-autohide="false" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
+                                <div class="toast-header">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/3361/3361382.png" class="rounded mr-2" alt="..." width="20" height="20">
+                                    <strong class="mr-auto">Assistant</strong>
+                                    <small>A second ago.</small>
+                                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="toast-body">
+                                    {{ message }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <script>
+                $(document).ready(function() {
+                    $(".toast").toast('show');
+                });
+            </script>
+
+            {% block content %}{% endblock %}
         </div>
     </div>
 </body>
