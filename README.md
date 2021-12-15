@@ -21,6 +21,7 @@ The application is used to manage the store. This system will enable the storage
 ## Technologies
 * Python
 * Django
+* Bootstrap
 * HTML5
 * CSS3
 
@@ -29,7 +30,7 @@ The application is used to manage the store. This system will enable the storage
 > pip install -r requirements.txt
 2. [Download](https://downloads.mariadb.org/) and install MariaDB
 3. Set password, name of the db and port in project/project/settings.py
-4. Add new environment variable to Path: path_to\MariaDB 10.6\bin
+4. Add new environment variable to Path: *your_path_to*\MariaDB 10.6\bin
 5. Restart cmd and run
 > mysql -u root -p
 6. Create and configure database
