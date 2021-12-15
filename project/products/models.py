@@ -38,7 +38,7 @@ class Category(models.Model):
     
 
 class Product(models.Model):
-    code = models.PositiveIntegerField(primary_key=True, help_text="Please pass the code of the product.")
+    code = models.PositiveBigIntegerField(primary_key=True, help_text="Please pass the code of the product.")
     name = models.CharField(max_length=100, help_text="Please pass the name of the product.")
     description = models.TextField(max_length=1000, blank=True, help_text="Optional: Please pass the description of the product.")
 

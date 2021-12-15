@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator
 
 
 # Create your models here.
@@ -25,10 +25,10 @@ class Position(models.Model):
 class Employee(models.Model):
     name = models.CharField(max_length=100, help_text="Please pass the name of the employee.")
     surname = models.CharField(max_length=100, help_text="Please pass the surname of the employee.")
-    phone_number = models.CharField(max_length=9, help_text="Please pass the phone number of the employee.")
+    phone_number = models.CharField(validators=[MinLengthValidator(9)], max_length=9, help_text="Please pass the phone number of the employee.")
     email = models.EmailField(blank=True, null=True, help_text="Optional: Please pass the email of the employee.")
     salary = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the salary of the employee.")
-    hours_per_week = models.PositiveIntegerField(help_text="Please pass the number of hours per week of the employee.")
+    hours_per_week = models.PositiveIntegerField(validators=[MaxValueValidator(168)], help_text="Please pass the number of hours per week of the employee.")
     position = models.ForeignKey(
         Position, on_delete=models.SET_NULL, null=True, help_text="Please choose the position for the employee")
 
