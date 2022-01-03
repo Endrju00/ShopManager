@@ -11,7 +11,11 @@
             <ul class="list-group list-group-flush">
               <li class="list-group-item"><strong>Date:</strong> {{ object.date }}</li>
               <li class="list-group-item"><strong>Amount:</strong> {{ object.amount }}PLN</li>
-              <a class="list-group-item list-group-item-action" href="{% url 'orders:order-detail' object.order.id %}"><strong>Order:</strong> #{{ object.order.id }}</a>
+              {% if object.order %}
+                <a class="list-group-item list-group-item-action" href="{% url 'orders:order-detail' object.order.id %}"><strong>Order:</strong> #{{ object.order.id }}</a>
+              {% else %}
+                <li class="list-group-item"><strong>Order:</strong> Deleted</li>
+              {% endif %}
             </ul>
         </div>
         <br>

@@ -12,9 +12,24 @@
             <ul class="list-group list-group-flush">
               <li class="list-group-item"><strong>Date:</strong> {{ object.date }}</li>
               <li class="list-group-item"><strong>Status:</strong> {{ object.status }}</li>
-              <a class="list-group-item list-group-item-action" href="{% url 'clients:client-detail' object.client.id %}"><strong>Client:</strong> {{ object.client }}</a>
-              <a class="list-group-item list-group-item-action" href="{% url 'orders:address-detail' object.address.id %}"><strong>Address:</strong> {{ object.address }}</a>
-              <a class="list-group-item list-group-item-action" href="{% url 'employees:employee-detail' object.employee.id %}"><strong>Employee:</strong> {{ object.employee }}</a>
+
+              {% if object.client %}
+                <a class="list-group-item list-group-item-action" href="{% url 'clients:client-detail' object.client.id %}"><strong>Client:</strong> {{ object.client }}</a>
+              {% else %}
+                <li class="list-group-item"><strong>Client:</strong> Deleted</li>
+              {% endif %}
+
+              {% if object.address %}
+                <a class="list-group-item list-group-item-action" href="{% url 'orders:address-detail' object.address.id %}"><strong>Address:</strong> {{ object.address }}</a>
+              {% else %}
+                <li class="list-group-item"><strong>Address:</strong> Deleted</li>
+              {% endif %}
+
+              {% if object.employee %}
+                <a class="list-group-item list-group-item-action" href="{% url 'employees:employee-detail' object.employee.id %}"><strong>Employee:</strong> {{ object.employee }}</a>
+              {% else %}
+                <li class="list-group-item"><strong>Employee:</strong> Deleted</li>
+              {% endif %}
             </ul>
         </div>
 
