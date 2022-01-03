@@ -53,7 +53,7 @@ class Product(models.Model):
 
 
 class DeliveredItems(models.Model):
-    date = models.DateField(auto_now=False, help_text="Please pass the date of the delivery.")
+    date = models.DateField(auto_now=False, help_text="Please pass the date of the delivery in YYYY-MM-DD format.")
     quantity = models.PositiveIntegerField(help_text="Please pass the quantity of the delivered items.")
     unit_purchase_price = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the unit purchase price of the delivered items.")
     unit_selling_price = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the unit selling price of the delivered items.")
