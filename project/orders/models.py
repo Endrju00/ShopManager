@@ -63,7 +63,9 @@ class Payment(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True,  help_text="Please select the order for which the payment was made.")
 
     def __str__(self):
-        return f'Payment #{self.id} for order #{self.order.id}'
+        if self.order:
+            return f'Payment #{self.id} for order #{self.order.id}'
+        return f'Payment #{self.id}'
 
     def save(self, *args, **kwargs):
         self.amount = round(self.amount, 2)
