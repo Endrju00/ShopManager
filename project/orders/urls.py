@@ -9,6 +9,7 @@ urlpatterns = [
     path('<int:pk>/', views.OrderDetailView.as_view(), name='order-detail'),
     path('<int:pk>/update/', views.OrderUpdateView.as_view(), name='order-update'),
     path('<int:pk>/delete/', views.OrderDeleteView.as_view(), name='order-delete'),
+    path('<int:pk>/add/', views.AddItemView.as_view(), name='order-additem'),
     path('create/', views.OrderCreateView.as_view(), name='order-create'),
 
     path('addresses/<int:pk>/', views.AddressDetailView.as_view(), name='address-detail'),

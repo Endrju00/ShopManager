@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.db import connection
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.views.generic.base import TemplateResponseMixin
 
 from .models import Address, ItemInOrder, Order, Payment
 
@@ -141,6 +142,18 @@ class ItemInOrderCreateView(generic.edit.CreateView):
         self.object.save()
 
         return HttpResponseRedirect(self.get_success_url())
+
+
+class AddItemView(ItemInOrderCreateView):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+    
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.order = Order.objects.get(id=self.kwargs['pk'])
+        self.object.save()
+
+        return super().form_valid(form)
 
 
 class ItemInOrderUpdateView(generic.edit.UpdateView):
