@@ -4,20 +4,18 @@
     <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
         <div class="card" style="width: 80%; margin-left: 10%;">
             <div class="card-header">
-                {% if object.overcategory %}
-                  <a href="delete/" class="btn btn-danger" style="float: right; margin-top: 1%;"><span class="fa fa-trash"></span></a>
-                  <a href="update/" class="btn btn-primary" style="float: right; margin-right: 2%; margin-top: 1%;"><span class="fa fa-pencil"></span></a>
-                  <h1 class="card-title">{{ object.overcategory }}</h1>
-                {% else %}
-                  <a href="delete/" class="btn btn-danger" style="float: right; margin-top: 1%;"><span class="fa fa-trash"></span></a>
-                  <a href="update/" class="btn btn-primary" style="float: right; margin-right: 2%; margin-top: 1%;"><span class="fa fa-pencil"></span></a>
-                  <h1 class="card-title">Category</h1>
-                {% endif %}
+              <a href="delete/" class="btn btn-danger" style="float: right; margin-top: 1%;"><span class="fa fa-trash"></span></a>
+              <a href="update/" class="btn btn-primary" style="float: right; margin-right: 2%; margin-top: 1%;"><span class="fa fa-pencil"></span></a>
+              <h1 class="card-title">{{object.name}}</h1>
             </div>
-            <div class="card-body">
-              <h2 class="card-title" style="margin-bottom: 0;">{{ object.name }}</h2>
-              <p class="card-text">{{ object.description }}</p>
-            </div>
+
+            {% if object.overcategory %}
+              <ul class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action" href="{% url 'products:category-detail' object.overcategory.id %}"><strong>Overcategory:</strong> {{object.overcategory}}</a>
+                
+              </ul>
+            {% endif %}
+
             {% if subcategories %}
                 <ul class="list-group list-group-flush">
                     {% for category in subcategories %}
