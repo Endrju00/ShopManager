@@ -18,7 +18,11 @@
               <li class="list-group-item"><strong>Email:</strong> {{ object.email }}</li>
               <li class="list-group-item"><strong>Salary:</strong> {{ object.salary }}PLN</li>
               <li class="list-group-item"><strong>Hours per week:</strong> {{ object.hours_per_week }}</li>
-              <a class="list-group-item list-group-item-action" href="{% url 'employees:position-detail' object.position.id %}"><strong>Position:</strong> {{ object.position }}</a>
+              {% if object.position %}
+                <a class="list-group-item list-group-item-action" href="{% url 'employees:position-detail' object.position.id %}"><strong>Position:</strong> {{ object.position }}</a>
+              {% else %}
+                <li class="list-group-item"><strong>Position:</strong> Deleted</li>
+              {% endif %}
             </ul>
         </div>
 
