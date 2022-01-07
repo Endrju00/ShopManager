@@ -13,7 +13,7 @@ RETURNS FLOAT
 BEGIN
 	DECLARE vCena FLOAT;
 	
-	SELECT SUM(p.ilosc_zamawiana * d.cena_jednostkowa_zakupu)
+	SELECT SUM(p.ilosc_zamawiana * d.cena_jednostkowa_sprzedazy)
 	INTO vCena
 	FROM zamowienia z JOIN pozycje_w_zamowieniach p
 	ON z.numer=p.numer_zamowienia
