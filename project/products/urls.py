@@ -6,16 +6,16 @@ from . import views
 app_name = 'products'
 urlpatterns = [
     path('', views.ProductListView.as_view(), name='product-list'),
+    path('create/', views.ProductCreateView.as_view(), name='product-create'),
     path('<int:pk>/', views.ProductDetailView.as_view(), name='product-detail'),
     path('<int:pk>/update/', views.ProductUpdateView.as_view(), name='product-update'), 
     path('<int:pk>/delete/', views.ProductDeleteView.as_view(), name='product-delete'),
-    path('create/', views.ProductCreateView.as_view(), name='product-create'),
 
     path('wholesalers/', views.WholesalerListView.as_view(), name='wholesaler-list'),
-    path('wholesalers/<int:pk>/', views.WholesalerDetailView.as_view(), name='wholesaler-detail'),
-    path('wholesalers/<int:pk>/update/', views.WholesalerUpdateView.as_view(), name='wholesaler-update'),
-    path('wholesalers/<int:pk>/delete/', views.WholesalerDeleteView.as_view(), name='wholesaler-delete'),
     path('wholesalers/create/', views.WholesalerCreateView.as_view(), name='wholesaler-create'),
+    path('wholesalers/<str:pk>/', views.WholesalerDetailView.as_view(), name='wholesaler-detail'),
+    path('wholesalers/<str:pk>/update/', views.WholesalerUpdateView.as_view(), name='wholesaler-update'),
+    path('wholesalers/<str:pk>/delete/', views.WholesalerDeleteView.as_view(), name='wholesaler-delete'),
 
     path('producers/', views.ProducerListView.as_view(), name='producer-list'),
     path('producers/create/', views.ProducerCreateView.as_view(), name='producer-create'),
@@ -30,8 +30,8 @@ urlpatterns = [
     path('categories/<str:pk>/delete/', views.CategoryDeleteView.as_view(), name='category-delete'),
 
     path('delivered-items/', views.DeliveredItemsListView.as_view(), name='delivered-items-list'),
+    path('delivered-items/create/', views.DeliveredItemsCreateView.as_view(), name='delivered-items-create'),
     path('delivered-items/<int:pk>/', views.DeliveredItemsDetailView.as_view(), name='delivered-items-detail'),
     path('delivered-items/<int:pk>/update/', views.DeliveredItemsUpdateView.as_view(), name='delivered-items-update'),
     path('delivered-items/<int:pk>/delete/', views.DeliveredItemsDeleteView.as_view(), name='delivered-items-delete'),
-    path('delivered-items/create/', views.DeliveredItemsCreateView.as_view(), name='delivered-items-create'),
 ]

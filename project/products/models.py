@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator
 
 # Create your models here.
 class Wholesaler(models.Model):
-    name = models.CharField(max_length=100, help_text="Please pass the name of the wholesaler.", db_column="nazwa")
+    name = models.CharField(primary_key=True, max_length=100, help_text="Please pass the name of the wholesaler.", db_column="nazwa")
 
     def __str__(self):
         return self.name
@@ -62,7 +62,7 @@ class DeliveredItems(models.Model):
     unit_purchase_price = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the unit purchase price of the delivered items.", db_column="cena_jednostkowa_zakupu")
     unit_selling_price = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the unit selling price of the delivered items.", db_column="cena_jednostkowa_sprzedazy")
 
-    wholesaler = models.ForeignKey(Wholesaler, on_delete=models.SET_NULL, null=True, help_text="Please select the wholesaler of the delivered items.", db_column="id_hurtownii")
+    wholesaler = models.ForeignKey(Wholesaler, on_delete=models.SET_NULL, null=True, help_text="Please select the wholesaler of the delivered items.", db_column="hurtownia")
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, help_text="Please select the product that has been delivered.", db_column="kod_produktu")
 
     def save(self, *args, **kwargs):

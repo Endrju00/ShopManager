@@ -34,7 +34,7 @@ class WholesalerDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['delivered'] = DeliveredItems.objects.filter(
-            wholesaler__id=self.kwargs['pk'])
+            wholesaler__name=self.kwargs['pk'])
         return context
 
 
@@ -45,7 +45,7 @@ class WholesalerCreateView(generic.edit.CreateView):
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Wholesaler was created successfully.')
-        return reverse('products:wholesaler-detail', kwargs={'pk': self.object.id})
+        return reverse('products:wholesaler-detail', kwargs={'pk': self.object.name})
 
 
 class WholesalerUpdateView(generic.edit.UpdateView):
@@ -55,7 +55,7 @@ class WholesalerUpdateView(generic.edit.UpdateView):
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Wholesaler was updated successfully.')
-        return reverse('products:wholesaler-detail', kwargs={'pk': self.object.id})
+        return reverse('products:wholesaler-detail', kwargs={'pk': self.object.name})
 
 
 class WholesalerDeleteView(generic.edit.DeleteView):
