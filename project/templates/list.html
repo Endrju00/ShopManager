@@ -19,6 +19,8 @@
         {% for obj in object_list %}
             {% if name == 'Products' %}
                 <a class="list-group-item list-group-item-action" href="{{ obj.code }}">{{ obj }}</a>
+            {% elif name == 'Positions' %}
+                <a class="list-group-item list-group-item-action" href="{{ obj.name }}">{{ obj }}</a>
             {% else %}
                 <a class="list-group-item list-group-item-action" href="{{ obj.id }}">{{ obj }}</a>
             {% endif %}

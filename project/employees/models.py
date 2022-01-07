@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator, MinLeng
 
 # Create your models here.
 class Position(models.Model):
-    name = models.CharField(max_length=100, help_text="Please pass the name of the position.", unique=True, db_column="nazwa")
+    name = models.CharField(primary_key=True, max_length=100, help_text="Please pass the name of the position.", db_column="nazwa")
     salary_min = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the minimum wage on this position.", db_column="placa_min")
     salary_max = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the maximum wage on this position.", db_column="placa_max")
 
@@ -31,7 +31,7 @@ class Employee(models.Model):
     salary = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the salary of the employee.", db_column="placa")
     hours_per_week = models.PositiveIntegerField(validators=[MaxValueValidator(168)], help_text="Please pass the number of hours per week of the employee.", db_column="ilosc_godzin_tyg")
     position = models.ForeignKey(
-        Position, on_delete=models.SET_NULL, null=True, help_text="Please choose the position for the employee", db_column="id_stanowiska")
+        Position, on_delete=models.SET_NULL, null=True, help_text="Please choose the position for the employee", db_column="nazwa_stanowiska")
 
     def save(self, *args, **kwargs):
         self.salary = min(max(round(self.salary, 2), self.position.salary_min),
