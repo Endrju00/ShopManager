@@ -24,10 +24,10 @@ urlpatterns = [
     path('producers/<str:pk>/delete/', views.ProducerDeleteView.as_view(), name='producer-delete'),
 
     path('categories/', views.CategoryListView.as_view(), name='category-list'),
-    path('categories/<int:pk>/', views.CategoryDetailView.as_view(), name='category-detail'),
-    path('categories/<int:pk>/update/', views.CategoryUpdateView.as_view(), name='category-update'),
-    path('categories/<int:pk>/delete/', views.CategoryDeleteView.as_view(), name='category-delete'),
     path('categories/create/', views.CategoryCreateView.as_view(), name='category-create'),
+    path('categories/<str:pk>/', views.CategoryDetailView.as_view(), name='category-detail'),
+    path('categories/<str:pk>/update/', views.CategoryUpdateView.as_view(), name='category-update'),
+    path('categories/<str:pk>/delete/', views.CategoryDeleteView.as_view(), name='category-delete'),
 
     path('delivered-items/', views.DeliveredItemsListView.as_view(), name='delivered-items-list'),
     path('delivered-items/<int:pk>/', views.DeliveredItemsDetailView.as_view(), name='delivered-items-detail'),

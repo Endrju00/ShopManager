@@ -156,9 +156,9 @@ class CategoryDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['subcategories'] = Category.objects.filter(
-            overcategory__id=self.kwargs['pk'])
+            overcategory__name=self.kwargs['pk'])
         context['products'] = Product.objects.filter(
-            category__id=self.kwargs['pk'])
+            category__name=self.kwargs['pk'])
         return context
 
 
@@ -169,7 +169,7 @@ class CategoryCreateView(generic.edit.CreateView):
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Category was created successfully.')
-        return reverse('products:category-detail', kwargs={'pk': self.object.id})
+        return reverse('products:category-detail', kwargs={'pk': self.object.name})
 
 
 class CategoryUpdateView(generic.edit.UpdateView):
@@ -179,7 +179,7 @@ class CategoryUpdateView(generic.edit.UpdateView):
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Category was updated successfully.')
-        return reverse('products:category-detail', kwargs={'pk': self.object.id})
+        return reverse('products:category-detail', kwargs={'pk': self.object.name})
 
 
 class CategoryDeleteView(generic.edit.DeleteView):
