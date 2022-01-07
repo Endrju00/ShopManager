@@ -40,9 +40,9 @@ The application is used to manage the store. This system will enable the storage
 7. Create function and procedure:
 > mysql -u root -p shopmanager_db < help.sql
 > exit
-9. Go to project/
+8. Go to project/
 > cd project
-10. Migrate:
+9. Migrate:
 > python manage.py migrate
-11. Run the application:
+10. Run the application:
 > python manage.py runserver
