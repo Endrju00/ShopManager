@@ -1,8 +1,8 @@
 delimiter //
 create or replace procedure podwyzka(IN pId INTEGER, IN pPodwyzka FLOAT) 
 	begin
-	UPDATE employees_employee
-	SET salary = salary + pPodwyzka
+	UPDATE pracownicy
+	SET placa = placa + pPodwyzka
 	WHERE id = pId; 
 	end //
 
@@ -13,13 +13,13 @@ RETURNS FLOAT
 BEGIN
 	DECLARE vCena FLOAT;
 	
-	SELECT SUM(p.quantity * d.unit_selling_price)
+	SELECT SUM(p.ilosc_zamawiana * d.cena_jednostkowa_sprzedazy)
 	INTO vCena
-	FROM orders_order z JOIN orders_iteminorder p
-	ON z.id=p.order_id
-	JOIN products_delivereditems d ON p.delivery_id=d.id
-	WHERE z.id=pNumerZamowienia
-	GROUP BY z.id;
+	FROM zamowienia z JOIN pozycje_w_zamowieniach p
+	ON z.numer=p.numer_zamowienia
+	JOIN dostarczone_towary d ON p.id_dostawy=d.id
+	WHERE z.numer=pNumerZamowienia
+	GROUP BY z.numer;
 	RETURN vCena;
 END; //
 

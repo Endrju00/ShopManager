@@ -26,11 +26,11 @@ create table Klienci(
 
 create table Adresy(
     id NUMERIC(10) GENERATED ALWAYS AS IDENTITY primary key,
-    miasto VARCHAR(100),
-    ulica VARCHAR(100),
-    nr_ulicy VARCHAR(100),
-    kod_pocztowy CHAR(6),
-    kraj VARCHAR(100),
+    miasto VARCHAR(100) not null,
+    ulica VARCHAR(100) not null,
+    nr_ulicy VARCHAR(100) not null,
+    kod_pocztowy CHAR(6) not null,
+    kraj VARCHAR(100) not null,
     UNIQUE(miasto, ulica, nr_ulicy, kod_pocztowy, kraj)
 );
 
@@ -45,10 +45,12 @@ create table Zamowienia(
 );
 
 create table Platnosci(
-    data DATE,
+    id NUMERIC(10) GENERATED ALWAYS AS IDENTITY primary key,
+    data DATE not null,
     kwota NUMERIC(10, 2) not null,
-    numer_zamowienia NUMERIC(10) references Zamowienia(numer),
-    primary key(data, numer_zamowienia)
+    numer_zamowienia NUMERIC(10) references Zamowienia(numer) not null,
+    primary key(id),
+    UNIQUE(data, numer_zamowienia)
 );
 
 create table Produkty(
@@ -75,40 +77,47 @@ create table Hurtownie(
 
 create table Dostarczone_towary(
     id NUMERIC(10) GENERATED ALWAYS AS IDENTITY primary key,
-    data DATE,
+    data DATE not null,
     ilosc NUMERIC(10) not null,
     cena_jednostkowa_zakupu NUMERIC(10, 2) not null,
     cena_jednostkowa_sprzedazy NUMERIC(10, 2) not null,
-    kod_produktu NUMERIC(10) references Produkty(kod),
-    hurtownia VARCHAR(100) references Hurtownie(nazwa),
+    kod_produktu NUMERIC(10) references Produkty(kod) not null,
+    hurtownia VARCHAR(100) references Hurtownie(nazwa) not null,
     UNIQUE(data, kod_produktu, hurtownia)
 );
 
 create table Pozycje_w_zamowieniach(
+    id NUMERIC(10) GENERATED ALWAYS AS IDENTITY primary key,
     ilosc_zamawiana NUMERIC(10) not null,
-    id_dostawy NUMERIC(10) references Dostarczone_towary(id),
-    numer_zamowienia NUMERIC(10) references Zamowienia(numer),
-    primary key(numer_zamowienia, id_dostawy)
+    id_dostawy NUMERIC(10) references Dostarczone_towary(id) not null,
+    numer_zamowienia NUMERIC(10) references Zamowienia(numer) not null,
+    primary key(id),
+    UNIQUE(numer_zamowienia, id_dostawy)
 );
 
-CREATE OR REPLACE FUNCTION CenaZamowienia(pNumerZamowienia IN NUMBER)
-    RETURN NUMBER(10, 2) IS
-    vCena NUMBER(10, 2)
-BEGIN
-    SELECT SUM(p.ilosc_zamawiana*d.cena_jednostkowa_sprzedazy) 
-    INTO vCena 
-    FROM Zamowienia z JOIN Pozycje_w_zamowieniach p ON z.numer=p.numer_zamowienia 
-    JOIN Dostarczone_towary d ON p.kod_produktu=d.kod_produktu AND p.data=d.data AND p.hurtownia=d.hurtownia 
-    WHERE z.numer=pNumerZamowienia 
-    GROUP BY z.numer;
-    RETURN vCena
-END CenaZamowienia;
-
-CREATE OR REPLACE PROCEDURE Podwyzka
-    (pIdPrac IN NUMBER,
-    pPodwyzka IN NUMBER) IS
-BEGIN
-    UPDATE Pracownicy
+delimiter //
+create or replace procedure podwyzka(IN pId INTEGER, IN pPodwyzka FLOAT) 
+    begin
+    UPDATE pracownicy
     SET placa = placa + pPodwyzka
-    WHERE id = pIdPrac;
-END Podwyzka;
+    WHERE id = pId; 
+    end //
+
+delimiter //
+CREATE OR REPLACE FUNCTION CenaZamowienia (pNumerZamowienia INTEGER)
+RETURNS FLOAT
+
+BEGIN
+    DECLARE vCena FLOAT;
+    
+    SELECT SUM(p.ilosc_zamawiana * d.cena_jednostkowa_sprzedazy)
+    INTO vCena
+    FROM zamowienia z JOIN pozycje_w_zamowieniach p
+    ON z.numer=p.numer_zamowienia
+    JOIN dostarczone_towary d ON p.id_dostawy=d.id
+    WHERE z.numer=pNumerZamowienia
+    GROUP BY z.numer;
+    RETURN vCena;
+END; //
+
+DELIMITER ;

@@ -117,7 +117,7 @@ class PositionCreateView(generic.edit.CreateView):
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Position was created successfully.')
-        return reverse('employees:position-detail', kwargs={'pk': self.object.id})
+        return reverse('employees:position-detail', kwargs={'pk': self.object.name})
 
 
 class PositionUpdateView(generic.edit.UpdateView):
@@ -127,7 +127,7 @@ class PositionUpdateView(generic.edit.UpdateView):
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Position was updated successfully.')
-        return reverse('employees:position-detail', kwargs={'pk': self.object.id})
+        return reverse('employees:position-detail', kwargs={'pk': self.object.name})
 
 
 class PositionDeleteView(generic.edit.DeleteView):

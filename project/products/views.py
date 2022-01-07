@@ -34,7 +34,7 @@ class WholesalerDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['delivered'] = DeliveredItems.objects.filter(
-            wholesaler__id=self.kwargs['pk'])
+            wholesaler__name=self.kwargs['pk'])
         return context
 
 
@@ -45,7 +45,7 @@ class WholesalerCreateView(generic.edit.CreateView):
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Wholesaler was created successfully.')
-        return reverse('products:wholesaler-detail', kwargs={'pk': self.object.id})
+        return reverse('products:wholesaler-detail', kwargs={'pk': self.object.name})
 
 
 class WholesalerUpdateView(generic.edit.UpdateView):
@@ -55,7 +55,7 @@ class WholesalerUpdateView(generic.edit.UpdateView):
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Wholesaler was updated successfully.')
-        return reverse('products:wholesaler-detail', kwargs={'pk': self.object.id})
+        return reverse('products:wholesaler-detail', kwargs={'pk': self.object.name})
 
 
 class WholesalerDeleteView(generic.edit.DeleteView):
@@ -93,7 +93,7 @@ class ProducerDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['products'] = Product.objects.filter(
-            producer__id=self.kwargs['pk'])
+            producer__name=self.kwargs['pk'])
         return context
 
 
@@ -104,7 +104,7 @@ class ProducerCreateView(generic.edit.CreateView):
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Producer was created successfully.')
-        return reverse('products:producer-detail', kwargs={'pk': self.object.id})
+        return reverse('products:producer-detail', kwargs={'pk': self.object.name})
 
 
 class ProducerUpdateView(generic.edit.UpdateView):
@@ -114,7 +114,7 @@ class ProducerUpdateView(generic.edit.UpdateView):
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Producer was updated successfully.')
-        return reverse('products:producer-detail', kwargs={'pk': self.object.id})
+        return reverse('products:producer-detail', kwargs={'pk': self.object.name})
 
 
 class ProducerDeleteView(generic.edit.DeleteView):
@@ -156,9 +156,9 @@ class CategoryDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['subcategories'] = Category.objects.filter(
-            overcategory__id=self.kwargs['pk'])
+            overcategory__name=self.kwargs['pk'])
         context['products'] = Product.objects.filter(
-            category__id=self.kwargs['pk'])
+            category__name=self.kwargs['pk'])
         return context
 
 
@@ -169,7 +169,7 @@ class CategoryCreateView(generic.edit.CreateView):
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Category was created successfully.')
-        return reverse('products:category-detail', kwargs={'pk': self.object.id})
+        return reverse('products:category-detail', kwargs={'pk': self.object.name})
 
 
 class CategoryUpdateView(generic.edit.UpdateView):
@@ -179,7 +179,7 @@ class CategoryUpdateView(generic.edit.UpdateView):
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Category was updated successfully.')
-        return reverse('products:category-detail', kwargs={'pk': self.object.id})
+        return reverse('products:category-detail', kwargs={'pk': self.object.name})
 
 
 class CategoryDeleteView(generic.edit.DeleteView):
