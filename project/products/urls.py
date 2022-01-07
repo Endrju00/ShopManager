@@ -18,10 +18,10 @@ urlpatterns = [
     path('wholesalers/create/', views.WholesalerCreateView.as_view(), name='wholesaler-create'),
 
     path('producers/', views.ProducerListView.as_view(), name='producer-list'),
-    path('producers/<int:pk>/', views.ProducerDetailView.as_view(), name='producer-detail'),
-    path('producers/<int:pk>/update/', views.ProducerUpdateView.as_view(), name='producer-update'),
-    path('producers/<int:pk>/delete/', views.ProducerDeleteView.as_view(), name='producer-delete'),
     path('producers/create/', views.ProducerCreateView.as_view(), name='producer-create'),
+    path('producers/<str:pk>/', views.ProducerDetailView.as_view(), name='producer-detail'),
+    path('producers/<str:pk>/update/', views.ProducerUpdateView.as_view(), name='producer-update'),
+    path('producers/<str:pk>/delete/', views.ProducerDeleteView.as_view(), name='producer-delete'),
 
     path('categories/', views.CategoryListView.as_view(), name='category-list'),
     path('categories/<int:pk>/', views.CategoryDetailView.as_view(), name='category-detail'),

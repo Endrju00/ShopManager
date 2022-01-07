@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator
 
 # Create your models here.
 class Wholesaler(models.Model):
-    name = models.CharField(max_length=100, help_text="Please pass the name of the wholesaler.", unique=True, db_column="nazwa")
+    name = models.CharField(max_length=100, help_text="Please pass the name of the wholesaler.", db_column="nazwa")
 
     def __str__(self):
         return self.name
@@ -15,7 +15,7 @@ class Wholesaler(models.Model):
 
 
 class Producer(models.Model):
-    name = models.CharField(max_length=100, help_text="Please pass the name of the producer.", unique=True, db_column="nazwa")
+    name = models.CharField(primary_key=True, max_length=100, help_text="Please pass the name of the producer.", db_column="nazwa")
     website = models.CharField(max_length=100, help_text="Please pass the website of the producer.", db_column="strona_www")
 
     def __str__(self):
@@ -46,7 +46,7 @@ class Product(models.Model):
     description = models.TextField(max_length=1000, blank=True, help_text="Optional: Please pass the description of the product.", db_column="opis")
 
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, help_text="Please select the category of the product.", db_column="id_kategorii")
-    producer = models.ForeignKey(Producer, on_delete=models.SET_NULL, null=True, help_text="Please select the producer of the producer.", db_column="id_producenta")
+    producer = models.ForeignKey(Producer, on_delete=models.SET_NULL, null=True, help_text="Please select the producer of the producer.", db_column="producent")
 
     def __str__(self):
         return self.name
