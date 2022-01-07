@@ -4,9 +4,9 @@ from django.core.validators import MinValueValidator, MaxValueValidator, MinLeng
 
 # Create your models here.
 class Position(models.Model):
-    name = models.CharField(max_length=100, help_text="Please pass the name of the position.", unique=True)
-    salary_min = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the minimum wage on this position.")
-    salary_max = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the maximum wage on this position.")
+    name = models.CharField(max_length=100, help_text="Please pass the name of the position.", unique=True, db_column="nazwa")
+    salary_min = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the minimum wage on this position.", db_column="placa_min")
+    salary_max = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the maximum wage on this position.", db_column="placa_max")
 
     def save(self, *args, **kwargs):
         min_salary, max_salary = self.salary_min, self.salary_max
@@ -20,17 +20,18 @@ class Position(models.Model):
 
     class Meta:
         ordering = ['name']
+        db_table = 'Stanowiska'
 
 
 class Employee(models.Model):
-    name = models.CharField(max_length=100, help_text="Please pass the name of the employee.")
-    surname = models.CharField(max_length=100, help_text="Please pass the surname of the employee.")
-    phone_number = models.CharField(validators=[MinLengthValidator(9)], max_length=9, help_text="Please pass the phone number of the employee.")
-    email = models.EmailField(blank=True, null=True, help_text="Optional: Please pass the email of the employee.")
-    salary = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the salary of the employee.")
-    hours_per_week = models.PositiveIntegerField(validators=[MaxValueValidator(168)], help_text="Please pass the number of hours per week of the employee.")
+    name = models.CharField(max_length=100, help_text="Please pass the name of the employee.", db_column="imie")
+    surname = models.CharField(max_length=100, help_text="Please pass the surname of the employee.", db_column="nazwisko")
+    phone_number = models.CharField(validators=[MinLengthValidator(9)], max_length=9, help_text="Please pass the phone number of the employee.", db_column="nr_telefonu")
+    email = models.EmailField(blank=True, null=True, help_text="Optional: Please pass the email of the employee.", db_column="email")
+    salary = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the salary of the employee.", db_column="placa")
+    hours_per_week = models.PositiveIntegerField(validators=[MaxValueValidator(168)], help_text="Please pass the number of hours per week of the employee.", db_column="ilosc_godzin_tyg")
     position = models.ForeignKey(
-        Position, on_delete=models.SET_NULL, null=True, help_text="Please choose the position for the employee")
+        Position, on_delete=models.SET_NULL, null=True, help_text="Please choose the position for the employee", db_column="id_stanowiska")
 
     def save(self, *args, **kwargs):
         self.salary = min(max(round(self.salary, 2), self.position.salary_min),
@@ -44,3 +45,4 @@ class Employee(models.Model):
 
     class Meta:
         ordering = ['position', 'name', 'surname']
+        db_table = 'Pracownicy'
