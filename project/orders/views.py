@@ -147,7 +147,6 @@ class ItemInOrderCreateView(generic.edit.CreateView):
     fields = ['quantity', 'delivery']
 
     def get_success_url(self):
-        messages.add_message(self.request, messages.SUCCESS, 'Item was created and added to order successfully.')
         if self.request.POST.get('first') == 'Add another one...':
             return reverse('orders:items-create')
         return reverse('orders:order-detail', kwargs={'pk': self.object.order.id})
@@ -155,6 +154,11 @@ class ItemInOrderCreateView(generic.edit.CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.order = Order.objects.latest('id')
+
+        if self.object.quantity > self.object.delivery.quantity:
+            messages.add_message(self.request, messages.SUCCESS, f'Warning: Not that many products were delivered in this shipment. Quantity set to {self.object.delivery.quantity}.')
+            self.object.quantity = self.object.delivery.quantity
+
         self.object.save()
 
         return HttpResponseRedirect(self.get_success_url())
@@ -167,6 +171,11 @@ class AddItemView(ItemInOrderCreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.order = Order.objects.get(id=self.kwargs['pk'])
+
+        if self.object.quantity > self.object.delivery.quantity:
+            messages.add_message(self.request, messages.SUCCESS, f'Warning: Not that many products were delivered in this shipment. Quantity set to {self.object.delivery.quantity}.')
+            self.object.quantity = self.object.delivery.quantity        
+
         self.object.save()
 
         return super().form_valid(form)
@@ -178,8 +187,19 @@ class ItemInOrderUpdateView(generic.edit.UpdateView):
     template_name = 'update_form.html'
 
     def get_success_url(self):
-        messages.add_message(self.request, messages.SUCCESS, 'Item in order was updated successfully.')
         return reverse('orders:items-detail', kwargs={'pk': self.object.id})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+
+        if self.object.quantity > self.object.delivery.quantity:
+            messages.add_message(self.request, messages.SUCCESS, f'Warning: Not that many products were delivered in this shipment. Quantity set to {self.object.delivery.quantity}.')
+            self.object.quantity = self.object.delivery.quantity
+        
+        self.object.save()
+
+        return super().form_valid(form)
+
 
 
 class ItemInOrderDeleteView(generic.edit.DeleteView):

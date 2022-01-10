@@ -45,7 +45,7 @@ class Order(models.Model):
 
 
 class ItemInOrder(models.Model):
-    quantity = models.PositiveIntegerField(help_text="Please define quantity of product.", db_column="ilosc_zamawiana")
+    quantity = models.PositiveIntegerField(validators=[MinValueValidator(1)], help_text="Please define quantity of product.", db_column="ilosc_zamawiana")
 
     order = models.ForeignKey(Order, on_delete=models.CASCADE, db_column="numer_zamowienia")
     delivery = models.ForeignKey(
