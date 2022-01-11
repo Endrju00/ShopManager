@@ -10,9 +10,11 @@ create table Pracownicy(
 );
 
 create table Stanowiska(
-    nazwa VARCHAR(100) GENERATED ALWAYS AS IDENTITY primary key,
+    id NUMERIC(10) GENERATED ALWAYS AS IDENTITY primary key,
+    nazwa VARCHAR(100) not null,
     placa_min NUMERIC(10, 2) not null,
-    placa_max NUMERIC(10, 2) not null
+    placa_max NUMERIC(10, 2) not null,
+    UNIQUE(nazwa)
 );
 
 create table Klienci(
@@ -49,30 +51,37 @@ create table Platnosci(
     data DATE not null,
     kwota NUMERIC(10, 2) not null,
     numer_zamowienia NUMERIC(10) references Zamowienia(numer) not null,
-    primary key(id),
     UNIQUE(data, numer_zamowienia)
 );
 
 create table Produkty(
-    kod NUMERIC(10) primary key,
+    id NUMERIC(10) GENERATED ALWAYS AS IDENTITY primary key,
+    kod NUMERIC(10) not null,
     nazwa VARCHAR(100) not null,
     opis VARCHAR(1000),
     producent VARCHAR(100) references Producenci(nazwa) not null,
-    kategoria VARCHAR(100) references Kategorie(nazwa) not null
+    kategoria VARCHAR(100) references Kategorie(nazwa) not null,
+    UNIQUE(kod)
 );
 
 create table Producenci(
-    nazwa VARCHAR(100) primary key,
-    strona_www VARCHAR(100)
+    id NUMERIC(10) GENERATED ALWAYS AS IDENTITY primary key,
+    nazwa VARCHAR(100) not null,
+    strona_www VARCHAR(100),
+    UNIQUE(nazwa)
 );
 
 create table Kategorie(
-    nazwa VARCHAR(100) primary key,
-    nadkategoria VARCHAR(100) references Kategorie(nazwa) null
+    id NUMERIC(10) GENERATED ALWAYS AS IDENTITY primary key,
+    nazwa VARCHAR(100) not null,
+    nadkategoria VARCHAR(100) references Kategorie(nazwa) null,
+    UNIQUE(nazwa)
 );
 
 create table Hurtownie(
-    nazwa VARCHAR(100) primary key
+    id NUMERIC(10) GENERATED ALWAYS AS IDENTITY primary key,
+    nazwa VARCHAR(100) not null,
+    UNIQUE(nazwa)
 );
 
 create table Dostarczone_towary(
@@ -91,7 +100,6 @@ create table Pozycje_w_zamowieniach(
     ilosc_zamawiana NUMERIC(10) not null,
     id_dostawy NUMERIC(10) references Dostarczone_towary(id) not null,
     numer_zamowienia NUMERIC(10) references Zamowienia(numer) not null,
-    primary key(id),
     UNIQUE(numer_zamowienia, id_dostawy)
 );
 
