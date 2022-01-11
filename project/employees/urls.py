@@ -13,7 +13,7 @@ urlpatterns = [
 
     path('positions/', views.PositionListView.as_view(), name='position-list'),
     path('positions/create/', views.PositionCreateView.as_view(), name='position-create'),
-    path('positions/<str:pk>/', views.PositionDetailView.as_view(), name='position-detail'),
-    path('positions/<str:pk>/update/', views.PositionUpdateView.as_view(), name='position-update'),
-    path('positions/<str:pk>/delete/', views.PositionDeleteView.as_view(), name='position-delete'),
+    path('positions/<int:pk>/', views.PositionDetailView.as_view(), name='position-detail'),
+    path('positions/<int:pk>/update/', views.PositionUpdateView.as_view(), name='position-update'),
+    path('positions/<int:pk>/delete/', views.PositionDeleteView.as_view(), name='position-delete'),
 ]
