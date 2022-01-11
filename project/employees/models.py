@@ -39,9 +39,7 @@ class Employee(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        if self.position:
-            return f'{self.position} {self.name} {self.surname}'
-        return f'Unknown position {self.name} {self.surname}'
+        return f'{self.name} {self.surname}'
 
     class Meta:
         ordering = ['position', 'name', 'surname']

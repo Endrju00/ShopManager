@@ -109,6 +109,12 @@ class PositionListView(generic.ListView):
 class PositionDetailView(generic.DetailView):
     model = Position
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['employees'] = Employee.objects.filter(
+            position__name=self.kwargs['pk'])
+        return context
+
 
 class PositionCreateView(generic.edit.CreateView):
     model = Position
