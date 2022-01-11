@@ -10,7 +10,7 @@
             </div>
             <ul class="list-group list-group-flush">
                 {% if object.product %}
-                  <a class="list-group-item list-group-item-action" href="{% url 'products:product-detail' object.product.code %}"><strong>Product:</strong> {{ object.product }}</a>
+                  <a class="list-group-item list-group-item-action" href="{% url 'products:product-detail' object.product.id %}"><strong>Product:</strong> {{ object.product }}</a>
                 {% else %}
                   <li class="list-group-item"><strong>Product:</strong> Deleted</li>
                 {% endif %}
@@ -19,7 +19,7 @@
                 <li class="list-group-item"><strong>Unit purchase price:</strong> {{ object.unit_purchase_price }}PLN</li>
                 <li class="list-group-item"><strong>Unit selling price:</strong> {{ object.unit_selling_price }}PLN</li>
                 {% if object.wholesaler %}
-                  <a class="list-group-item list-group-item-action" href="{% url 'products:wholesaler-detail' object.wholesaler.name %}"><strong>Wholesaler:</strong> {{ object.wholesaler }}</a>
+                  <a class="list-group-item list-group-item-action" href="{% url 'products:wholesaler-detail' object.wholesaler.id %}"><strong>Wholesaler:</strong> {{ object.wholesaler }}</a>
                 {% else %}
                   <li class="list-group-item"><strong>Wholesaler:</strong> Deleted</li>
                 {% endif %}

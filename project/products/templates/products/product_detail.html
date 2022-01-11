@@ -12,12 +12,12 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><strong>Code:</strong> {{ object.code }}</li>
           {% if object.category %}
-            <a class="list-group-item list-group-item-action" href="{% url 'products:category-detail' object.category.name %}"><strong>Category:</strong> {{ object.category }}</a>
+            <a class="list-group-item list-group-item-action" href="{% url 'products:category-detail' object.category.id %}"><strong>Category:</strong> {{ object.category }}</a>
           {% else %}
             <li class="list-group-item"><strong>Category:</strong> Deleted</li>
           {% endif %}
           {% if object.producer %}
-            <a class="list-group-item list-group-item-action" href="{% url 'products:producer-detail' object.producer.name %}"><strong>Producer:</strong> {{ object.producer }}</a>
+            <a class="list-group-item list-group-item-action" href="{% url 'products:producer-detail' object.producer.id %}"><strong>Producer:</strong> {{ object.producer }}</a>
           {% else %}
             <li class="list-group-item"><strong>Producer:</strong> Deleted</li>
           {% endif %}

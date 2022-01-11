@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator
 
 # Create your models here.
 class Wholesaler(models.Model):
-    name = models.CharField(primary_key=True, max_length=100, help_text="Please pass the name of the wholesaler.", db_column="nazwa")
+    name = models.CharField(unique=True, max_length=100, help_text="Please pass the name of the wholesaler.", db_column="nazwa")
 
     def __str__(self):
         return self.name
@@ -15,7 +15,7 @@ class Wholesaler(models.Model):
 
 
 class Producer(models.Model):
-    name = models.CharField(primary_key=True, max_length=100, help_text="Please pass the name of the producer.", db_column="nazwa")
+    name = models.CharField(unique=True, max_length=100, help_text="Please pass the name of the producer.", db_column="nazwa")
     website = models.CharField(max_length=100, help_text="Please pass the website of the producer.", db_column="strona_www")
 
     def __str__(self):
@@ -27,7 +27,7 @@ class Producer(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(primary_key=True, max_length=100, help_text="Please pass the name of the category.", db_column="nazwa")
+    name = models.CharField(unique=True, max_length=100, help_text="Please pass the name of the category.", db_column="nazwa")
 
     overcategory = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, help_text="Optional: Please select an overcategory.", db_column="nadkategoria")
 
@@ -41,7 +41,7 @@ class Category(models.Model):
     
 
 class Product(models.Model):
-    code = models.PositiveBigIntegerField(primary_key=True, help_text="Please pass the code of the product.", db_column="kod")
+    code = models.PositiveBigIntegerField(unique=True, help_text="Please pass the code of the product.", db_column="kod")
     name = models.CharField(max_length=100, help_text="Please pass the name of the product.", db_column="nazwa")
     description = models.TextField(max_length=1000, blank=True, help_text="Optional: Please pass the description of the product.", db_column="opis")
 
