@@ -36,7 +36,7 @@ class ClientDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['orders'] = Order.objects.filter(
-            employee__id=self.kwargs['pk'])
+            client__id=self.kwargs['pk'])
         return context
 
 
