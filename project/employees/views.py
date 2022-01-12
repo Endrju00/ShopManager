@@ -18,6 +18,7 @@ class EmployeeListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Employees'
+        context['search'] = 'Search for name/surname...'
         return context
 
     def post(self, request, *args, **kwargs):
@@ -94,6 +95,7 @@ class PositionListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Positions'
+        context['search'] = 'Search for the name...'
         return context
 
     def post(self, request, *args, **kwargs):

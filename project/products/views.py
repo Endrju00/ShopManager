@@ -16,6 +16,7 @@ class WholesalerListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Wholesalers'
+        context['search'] = 'Search for the name...'
         return context
 
     def post(self, request, *args, **kwargs):
@@ -75,6 +76,7 @@ class ProducerListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Producers'
+        context['search'] = 'Search for the name...'
         return context
 
     def post(self, request, *args, **kwargs):
@@ -134,6 +136,7 @@ class CategoryListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Categories'
+        context['search'] = 'Search for the name...'
         return context
 
     def get_queryset(self):
@@ -199,6 +202,7 @@ class ProductListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = self.model.__name__ + 's'
+        context['search'] = 'Search for the name...'
         return context
 
     def post(self, request, *args, **kwargs):
@@ -252,6 +256,7 @@ class DeliveredItemsListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Delivered Items'
+        context['search'] = 'Search for date/product name/wholesaler...'
         return context
 
     def post(self, request, *args, **kwargs):

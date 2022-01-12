@@ -18,6 +18,7 @@ class ClientListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Clients'
+        context['search'] = 'Search for name/surname...'
         return context
 
     def post(self, request, *args, **kwargs):

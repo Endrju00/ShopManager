@@ -69,6 +69,7 @@ class OrderListView(generic.ListView):
         self.remove_empty_orders()  
         context = super().get_context_data(**kwargs)
         context['name'] = 'Orders'
+        context['search'] = 'Search for status/client/employee/id...'
         return context
 
     def post(self, request, *args, **kwargs):
@@ -266,6 +267,7 @@ class PaymentListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Payments'
+        context['search'] = 'Search for date...'
         return context
 
     def post(self, request, *args, **kwargs):
