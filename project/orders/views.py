@@ -12,6 +12,11 @@ from .forms import ItemInOrderForm
 
 
 # Create your views here.
+class AddressReportView(generic.ListView):
+    model = Address
+    template_name = 'orders/address_report.html'
+
+
 class AddressDetailView(generic.DetailView):
     model = Address
 
@@ -80,6 +85,11 @@ class OrderListView(generic.ListView):
             'results': f'Results for \"{search}\"'
         }
         return render(request, self.template_name, context=context)
+
+
+class OrderReportView(generic.ListView):
+    model = Order
+    template_name = 'orders/order_report.html'
 
 
 class OrderDetailView(generic.DetailView):
@@ -181,6 +191,11 @@ class ItemInOrderCreateView(generic.edit.CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+class ItemInOrderReportView(generic.ListView):
+    model = ItemInOrder
+    template_name = 'orders/iteminorder_report.html'
+
+
 class AddItemView(ItemInOrderCreateView):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -279,6 +294,11 @@ class PaymentListView(generic.ListView):
         }
         return render(request, self.template_name, context=context)
 
+
+class PaymentReportView(generic.ListView):
+    model = Payment
+    template_name = 'orders/payment_report.html'
+    
 
 class PaymentDetailView(generic.DetailView):
     model = Payment
