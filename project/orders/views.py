@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.views.generic.base import TemplateResponseMixin
 
 from .models import Address, ItemInOrder, Order, Payment
+from .forms import ItemInOrderForm
 
 
 # Create your views here.
@@ -144,7 +145,7 @@ class ItemInOrderDetailView(generic.DetailView):
 class ItemInOrderCreateView(generic.edit.CreateView):
     model = ItemInOrder
     template_name = 'orders/item_create.html'
-    fields = ['quantity', 'delivery']
+    form_class = ItemInOrderForm
 
     def get_success_url(self):
         if self.request.POST.get('first') == 'Add another one...':
@@ -155,30 +156,60 @@ class ItemInOrderCreateView(generic.edit.CreateView):
         self.object = form.save(commit=False)
         self.object.order = Order.objects.latest('id')
 
-        if self.object.quantity > self.object.delivery.quantity:
-            messages.add_message(self.request, messages.SUCCESS, f'Warning: Not that many products were delivered in this shipment. Quantity set to {self.object.delivery.quantity}.')
-            self.object.quantity = self.object.delivery.quantity
+        # Check availability
+        available = self.object.delivery.quantity
+        items = ItemInOrder.objects.filter(delivery=self.object.delivery)
+        for item in items:
+            available -= item.quantity
 
-        self.object.save()
+        if self.object.quantity <= available:
+            self.object.save()
 
+        elif self.object.quantity > available and available > 0:
+            self.object.quantity = available
+            messages.add_message(
+                self.request, messages.SUCCESS,
+                f'WARNING: There is not that much delivered items. Quantity set to {available}.')
+            self.object.save()
+            
+        else:
+            messages.add_message(
+                self.request, messages.SUCCESS,
+                f'WARNING: There is no items in this delivery left. You can edit the order.')
+        
         return HttpResponseRedirect(self.get_success_url())
 
 
 class AddItemView(ItemInOrderCreateView):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-    
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.order = Order.objects.get(id=self.kwargs['pk'])
 
-        if self.object.quantity > self.object.delivery.quantity:
-            messages.add_message(self.request, messages.SUCCESS, f'Warning: Not that many products were delivered in this shipment. Quantity set to {self.object.delivery.quantity}.')
-            self.object.quantity = self.object.delivery.quantity        
+        # Check availability
+        available = self.object.delivery.quantity
+        items = ItemInOrder.objects.filter(delivery=self.object.delivery)
+        for item in items:
+            available -= item.quantity
 
-        self.object.save()
+        if self.object.quantity <= available:
+            self.object.save()
 
-        return super().form_valid(form)
+        elif self.object.quantity > available and available > 0:
+            self.object.quantity = available
+            messages.add_message(
+                self.request, messages.SUCCESS,
+                f'WARNING: There is not that much delivered items. Quantity set to {available}.')
+            self.object.save()
+            
+        else:
+            messages.add_message(
+                self.request, messages.SUCCESS,
+                f'WARNING: There is no items in this delivery left. You can edit the order.')
+
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class ItemInOrderUpdateView(generic.edit.UpdateView):
@@ -190,15 +221,31 @@ class ItemInOrderUpdateView(generic.edit.UpdateView):
         return reverse('orders:items-detail', kwargs={'pk': self.object.id})
 
     def form_valid(self, form):
+        old_quantity = ItemInOrder.objects.get(id=self.object.id).quantity
         self.object = form.save(commit=False)
 
-        if self.object.quantity > self.object.delivery.quantity:
-            messages.add_message(self.request, messages.SUCCESS, f'Warning: Not that many products were delivered in this shipment. Quantity set to {self.object.delivery.quantity}.')
-            self.object.quantity = self.object.delivery.quantity
-        
-        self.object.save()
+        # Check availability
+        available = self.object.delivery.quantity + old_quantity
+        items = ItemInOrder.objects.filter(delivery=self.object.delivery)
+        for item in items:
+            available -= item.quantity
 
-        return super().form_valid(form)
+        if self.object.quantity <= available:
+            self.object.save()
+
+        elif self.object.quantity > available and available > 0:
+            self.object.quantity = available
+            messages.add_message(
+                self.request, messages.SUCCESS,
+                f'WARNING: There is not that much delivered items. Quantity set to {available}.')
+            self.object.save()
+            
+        else:
+            messages.add_message(
+                self.request, messages.SUCCESS,
+                f'WARNING: There is no items in this delivery left. You can edit the order.')
+
+        return HttpResponseRedirect(self.get_success_url())
 
 
 
