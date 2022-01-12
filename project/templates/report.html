@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content%}
+
+<div style="width: 100%; margin-left: 2%;">
+    {% include "report_list.html" %}
+
+    <div style="width: 75%; margin-left: 21%;">
+        <h2>You can see all of your important data here.</h2>
+        <p class="lead">Like in example below!</p>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Discount code</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>734567984</td>
+                <td>otto@gmail.com</td>
+                <td>112333</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>765893203</td>
+                <td>thornton@op.pl</td>
+                <td>None</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>675887967</td>
+                <td>bird@gmail.com</td>
+                <td>177123</td>
+              </tr>
+              <tr>
+                <th scope="row">...</th>
+                <td>...</td>
+                <td>...</td><td>...</td><td>...</td><td>...</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    
+</div>
+
+{% endblock %}

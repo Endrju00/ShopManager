@@ -29,6 +29,11 @@ class WholesalerListView(generic.ListView):
         return render(request, self.template_name, context=context)
 
 
+class WholesalerReportView(generic.ListView):
+    model = Wholesaler
+    template_name = 'products/wholesaler_report.html'
+
+
 class WholesalerDetailView(generic.DetailView):
     model = Wholesaler
 
@@ -87,6 +92,11 @@ class ProducerListView(generic.ListView):
             'results': f'Results for \"{search}\"'
         }
         return render(request, self.template_name, context=context)
+
+
+class ProducerReportView(generic.ListView):
+    model = Producer
+    template_name = 'products/producer_report.html'
 
 
 class ProducerDetailView(generic.DetailView):
@@ -151,6 +161,11 @@ class CategoryListView(generic.ListView):
             'results': f'Results for \"{search}\"'
         }
         return render(request, self.template_name, context=context)
+
+
+class CategoryReportView(generic.ListView):
+    model = Category
+    template_name = 'products/category_report.html'
 
 
 class CategoryDetailView(generic.DetailView):
@@ -248,6 +263,11 @@ class ProductDeleteView(generic.edit.DeleteView):
         return reverse('products:product-list')
 
 
+class ProductReportView(generic.ListView):
+    model = Product
+    template_name = 'products/product_report.html'
+
+
 class DeliveredItemsListView(generic.ListView):
     model = DeliveredItems
     paginate_by = 10
@@ -268,6 +288,11 @@ class DeliveredItemsListView(generic.ListView):
             'results': f'Results for \"{search}\"'
         }
         return render(request, self.template_name, context=context)
+
+    
+class DeliveredItemsReportView(generic.ListView):
+    model = DeliveredItems
+    template_name = 'products/delivereditems_report.html'
 
 
 class DeliveredItemsDetailView(generic.DetailView):

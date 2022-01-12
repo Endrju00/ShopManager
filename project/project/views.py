@@ -10,6 +10,10 @@ class AboutPageView(TemplateView):
     template_name = "about.html"
 
 
+class ReportPageView(TemplateView):
+    template_name = "report.html"
+    
+
 def error400Handler(request, exception):
     return render(request, 'error.html', context={'code': 400})
 
