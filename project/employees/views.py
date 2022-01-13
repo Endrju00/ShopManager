@@ -31,6 +31,11 @@ class EmployeeListView(generic.ListView):
         return render(request, self.template_name, context=context)
 
 
+class EmployeeReportView(generic.ListView):
+    model = Employee
+    template_name = 'employees/employee_report.html'
+
+
 class EmployeeDetailView(generic.DetailView):
     model = Employee
 
@@ -106,6 +111,11 @@ class PositionListView(generic.ListView):
             'results': f'Results for \"{search}\"'
         }
         return render(request, self.template_name, context=context)
+
+
+class PositionReportView(generic.ListView):
+    model = Position
+    template_name = 'employees/position_report.html'
 
 
 class PositionDetailView(generic.DetailView):
