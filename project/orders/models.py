@@ -1,10 +1,11 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 from products.models import DeliveredItems
 from clients.models import Client
 from employees.models import Employee
-
 # Create your models here.
 
 
@@ -27,7 +28,7 @@ class Address(models.Model):
 
 class Order(models.Model):
     id = models.AutoField(primary_key=True, db_column="numer")
-    date = models.DateField(help_text="Please pass the date in YYYY-MM-DD format.", db_column="data_zlozenia")
+    date = models.DateField(default=timezone.now, help_text="Please pass the date in YYYY-MM-DD format.", db_column="data_zlozenia")
     status = models.CharField(max_length=100, help_text="Please pass the status of the order.", db_column="status")
     comment = models.TextField(max_length=1000, blank=True, null=True, help_text="Optional: Please add some comments.", db_column="komentarz")
 
@@ -61,7 +62,7 @@ class ItemInOrder(models.Model):
 
 
 class Payment(models.Model):
-    date = models.DateTimeField(help_text="Please pass the date of the payment.", db_column="data")
+    date = models.DateTimeField(default=timezone.now, help_text="Please pass the date of the payment.", db_column="data")
     amount = models.FloatField(validators=[MinValueValidator(0)],  help_text="Please pass the amount of the payment.", db_column="kwota")
 
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True,  help_text="Please select the order for which the payment was made.", db_column="numer_zamowienia")
