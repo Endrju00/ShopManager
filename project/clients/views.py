@@ -31,6 +31,12 @@ class ClientListView(generic.ListView):
         return render(request, self.template_name, context=context)
 
 
+class ClientReportView(generic.ListView):
+    model = Client
+    template_name = 'clients/client_report.html'
+
+
+
 class ClientDetailView(generic.DetailView):
     model = Client
 
