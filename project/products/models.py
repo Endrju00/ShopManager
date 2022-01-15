@@ -2,6 +2,8 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from django.utils import timezone
 
+import orders.models
+
 # Create your models here.
 class Wholesaler(models.Model):
     name = models.CharField(unique=True, max_length=100, help_text="Please pass the name of the wholesaler.", db_column="nazwa")
@@ -71,14 +73,23 @@ class DeliveredItems(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
+        name = ''
         if self.product and self.wholesaler:
-            return f'{self.date} {self.product} from {self.wholesaler}'
+            name = f'{self.date} {self.product} from {self.wholesaler}'
         elif self.product and not self.wholesaler:
-            return f'{self.date} {self.product} from Unknown wholesaler'
+            name = f'{self.date} {self.product} from Unknown wholesaler'
         elif not self.product and self.wholesaler:
-            return f'{self.date} Unknown product from {self.wholesaler}'
+            name = f'{self.date} Unknown product from {self.wholesaler}'
         else:
-            return  f'Unknown delivery {self.date}'
+            name = f'Unknown delivery {self.date}'
+        
+        available = self.quantity
+        items = orders.models.ItemInOrder.objects.filter(delivery__id=self.id)
+        for item in items:
+            available -= item.quantity
+            
+        return f'{name} ({available} left)'
+
 
     class Meta:
         verbose_name_plural = "delivered items"
