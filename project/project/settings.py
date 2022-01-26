@@ -23,7 +23,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 SECRET_KEY = 'django-insecure--j03z08&@xv#ljz(xbedi=s69=(7y*w9b-_9ph(vcv#g*)o(sq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
@@ -86,7 +86,7 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'shopmanager_db',
+        'NAME': 'shopmanager_db2',
         'USER': 'root',
         'PASSWORD': 'password',
         'HOST': 'localhost',

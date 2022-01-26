@@ -31,7 +31,7 @@ class Producer(models.Model):
 class Category(models.Model):
     name = models.CharField(unique=True, max_length=100, help_text="Please pass the name of the category.", db_column="nazwa")
 
-    overcategory = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, help_text="Optional: Please select an overcategory.", db_column="nadkategoria")
+    overcategory = models.ForeignKey('self', on_delete=models.RESTRICT, blank=True, null=True, help_text="Optional: Please select an overcategory.", db_column="nadkategoria")
 
     def __str__(self):
         return self.name
@@ -47,8 +47,8 @@ class Product(models.Model):
     name = models.CharField(max_length=100, help_text="Please pass the name of the product.", db_column="nazwa")
     description = models.TextField(max_length=1000, blank=True, help_text="Optional: Please pass the description of the product.", db_column="opis")
 
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, help_text="Please select the category of the product.", db_column="kategoria")
-    producer = models.ForeignKey(Producer, on_delete=models.SET_NULL, null=True, help_text="Please select the producer of the producer.", db_column="producent")
+    category = models.ForeignKey(Category, on_delete=models.RESTRICT, null=True, help_text="Please select the category of the product.", db_column="kategoria")
+    producer = models.ForeignKey(Producer, on_delete=models.RESTRICT, null=True, help_text="Please select the producer of the producer.", db_column="producent")
 
     def __str__(self):
         return self.name
@@ -64,8 +64,8 @@ class DeliveredItems(models.Model):
     unit_purchase_price = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the unit purchase price of the delivered items.", db_column="cena_jednostkowa_zakupu")
     unit_selling_price = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the unit selling price of the delivered items.", db_column="cena_jednostkowa_sprzedazy")
 
-    wholesaler = models.ForeignKey(Wholesaler, on_delete=models.SET_NULL, null=True, help_text="Please select the wholesaler of the delivered items.", db_column="hurtownia")
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, help_text="Please select the product that has been delivered.", db_column="kod_produktu")
+    wholesaler = models.ForeignKey(Wholesaler, on_delete=models.RESTRICT, null=True, help_text="Please select the wholesaler of the delivered items.", db_column="hurtownia")
+    product = models.ForeignKey(Product, on_delete=models.RESTRICT, null=True, help_text="Please select the product that has been delivered.", db_column="kod_produktu")
 
     def save(self, *args, **kwargs):
         self.unit_purchase_price = round(self.unit_purchase_price, 2)
