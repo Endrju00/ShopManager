@@ -12,7 +12,7 @@
               <li class="list-group-item"><strong>Quantity:</strong> {{ object.quantity }}</li>
               
               {% if object.delivery %}
-                <a class="list-group-item list-group-item-action" href="{% url 'products:delivered-items-detail' object.delivery.id %}"><strong>Delivery:</strong> #{{ object.delivery }}</a>
+                <a class="list-group-item list-group-item-action" href="{% url 'products:delivered-items-detail' object.delivery.id %}"><strong>Delivery:</strong> {{ object.delivery }}</a>
               {% else %}
                 <li class="list-group-item"><strong>Delivery:</strong> Deleted</li>
               {% endif %}
