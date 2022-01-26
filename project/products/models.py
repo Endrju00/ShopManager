@@ -31,7 +31,7 @@ class Producer(models.Model):
 class Category(models.Model):
     name = models.CharField(unique=True, max_length=100, help_text="Please pass the name of the category.", db_column="nazwa")
 
-    overcategory = models.ForeignKey('self', on_delete=models.RESTRICT, blank=True, null=True, help_text="Optional: Please select an overcategory.", db_column="nadkategoria")
+    overcategory = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, help_text="Optional: Please select an overcategory.", db_column="nadkategoria")
 
     def __str__(self):
         return self.name
