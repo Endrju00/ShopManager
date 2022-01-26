@@ -53,6 +53,8 @@ class ItemInOrder(models.Model):
         DeliveredItems, on_delete=models.SET_NULL, null=True, help_text="Please select the delivery of the product.", db_column="id_dostawy")
 
     def __str__(self):
+        if not self.delivery:
+            return 'Unknown item'
         return f'{self.quantity}x {self.delivery.product} for {self.delivery.unit_selling_price} PLN'
 
     class Meta:
