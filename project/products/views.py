@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.db.models import Q
 from django.contrib import messages
 
-
+from orders.models import ItemInOrder
 from .models import Category, DeliveredItems, Producer, Product, Wholesaler
 
 
@@ -233,6 +233,12 @@ class ProductListView(generic.ListView):
 class ProductDetailView(generic.DetailView):
     model = Product
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['delivered'] = DeliveredItems.objects.filter(
+            product__id=self.kwargs['pk'])
+        return context
+
 
 class ProductCreateView(generic.edit.CreateView):
     model = Product
@@ -297,6 +303,12 @@ class DeliveredItemsReportView(generic.ListView):
 
 class DeliveredItemsDetailView(generic.DetailView):
     model = DeliveredItems
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['items'] = ItemInOrder.objects.filter(delivery__id=self.kwargs['pk'])
+        return context
+
 
 
 class DeliveredItemsCreateView(generic.edit.CreateView):
