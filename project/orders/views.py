@@ -20,6 +20,11 @@ class AddressReportView(generic.ListView):
 class AddressDetailView(generic.DetailView):
     model = Address
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['orders'] = Order.objects.filter(address__id=self.kwargs['pk'])
+        return context
+
 
 class AddressCreateView(generic.edit.CreateView):
     model = Address
