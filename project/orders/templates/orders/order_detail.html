@@ -5,7 +5,9 @@
         <div class="card" style="width: 80%; margin-left: 10%;">
             <div class="card-header">
               {% if payments %}
-                <a href="#" class="btn btn-secondary" style="float: right; margin-top: 1%;"><span class="fa fa-trash"></span></a>
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Disabled: First, remove the payments below" style="float: right; margin-top: 1%;">
+                  <a href="#" class="btn btn-secondary" ><span class="fa fa-trash"></span></a>
+                </span>
               {% else %}
                 <a href="delete/" class="btn btn-danger" style="float: right; margin-top: 1%;"><span class="fa fa-trash"></span></a>
               {% endif %}
@@ -58,7 +60,7 @@
         <br>
         <div class="card" style="width: 80%; margin-left: 10%;">
           <div class="card-header">
-            <h1 class="card-title">Payments</h1>
+            <h1 class="card-title">Connected Payments</h1>
           </div>
           <ul class="list-group list-group-flush">
             {% for payment in payments %}
