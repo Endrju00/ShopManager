@@ -48,6 +48,8 @@ class EmployeeDetailView(generic.DetailView):
     def post(self, request, *args, **kwargs):
         if self.request.POST.get('procedure'):
             e = Employee.objects.get(id=self.kwargs['pk'])
+
+            # procedura 
             if e.salary + 100 <= e.position.salary_max:
                 with connection.cursor() as cursor:
                     cursor.execute(f"call podwyzka({self.kwargs['pk']}, 100)")
@@ -55,6 +57,7 @@ class EmployeeDetailView(generic.DetailView):
                 messages.add_message(self.request, messages.SUCCESS, 'An employee\'s salary has been increased by 100 PLN.')
             else:
                 messages.add_message(self.request, messages.SUCCESS, 'It is impossible to raise an employee\'s salary any more.')
+                
         context = {
             'object': Employee.objects.get(id=self.kwargs['pk']),
             'orders': Order.objects.filter(employee__id=self.kwargs['pk'])
