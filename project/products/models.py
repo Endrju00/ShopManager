@@ -34,6 +34,8 @@ class Category(models.Model):
     overcategory = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, help_text="Optional: Please select an overcategory.", db_column="nadkategoria")
 
     def __str__(self):
+        if self.overcategory:
+            return f'{self.overcategory} -> {self.name}'
         return self.name
 
     class Meta:
