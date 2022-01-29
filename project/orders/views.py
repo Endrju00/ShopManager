@@ -60,23 +60,23 @@ class OrderListView(generic.ListView):
     paginate_by = 10
     template_name = 'orders/list.html'
 
-    def remove_empty_orders(self):
-        orders = list(Order.objects.all())
-        items = tuple(ItemInOrder.objects.all())
+    # def remove_empty_orders(self):
+    #     orders = list(Order.objects.all())
+    #     items = tuple(ItemInOrder.objects.all())
         
-        # Remove orders that have items from the list
-        for item in items:
-            if item.order in orders:
-                orders.remove(item.order)
+    #     # Remove orders that have items from the list
+    #     for item in items:
+    #         if item.order in orders:
+    #             orders.remove(item.order)
         
-        # Delete empty orders
-        for order in orders:
-            messages.add_message(self.request, messages.WARNING, f'Empty order deleted. (Order #{order.id}) ')
-            order.delete()
+    #     # Delete empty orders
+    #     for order in orders:
+    #         messages.add_message(self.request, messages.WARNING, f'Empty order deleted. (Order #{order.id}) ')
+    #         order.delete()
             
 
     def get_context_data(self, **kwargs):
-        self.remove_empty_orders()  
+        # self.remove_empty_orders()  
         context = super().get_context_data(**kwargs)
         context['name'] = 'Orders'
         context['search'] = 'Search for status/client/employee/id...'
