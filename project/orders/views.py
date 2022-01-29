@@ -106,6 +106,8 @@ class OrderDetailView(generic.DetailView):
             order__id=self.kwargs['pk'])
         context['payments'] = Payment.objects.filter(
             order__id=self.kwargs['pk'])
+        
+        # funkcja
         with connection.cursor() as cursor:
             cursor.execute(f"SELECT CenaZamowienia ({self.kwargs['pk']})")
             data = cursor.fetchone()
