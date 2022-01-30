@@ -8,6 +8,7 @@
         <form method="post">{% csrf_token %}
             {{ form|crispy }}
             <br>
+            <p><strong>WARNING:</strong> Update will affect all of the connected objects listed in detail view!</p>
             <input class='btn btn-primary btn-lg' type="submit" value="Update!" style="width: 100%;">
         </form>
     </div>
