@@ -3,6 +3,7 @@ from django.views import generic
 from django.shortcuts import render
 from django.db.models import Q
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 
 from orders.models import ItemInOrder
 from .models import Category, DeliveredItems, Producer, Product, Wholesaler
@@ -198,6 +199,24 @@ class CategoryUpdateView(generic.edit.UpdateView):
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Category was updated successfully.')
         return reverse('products:category-detail', kwargs={'pk': self.object.id})
+    
+    def get_failure_url(self):
+        return reverse('products:category-detail', kwargs={'pk': self.object.id})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        try:
+            if self.object.name == self.object.overcategory.name:
+                messages.add_message(
+                    self.request, messages.SUCCESS,
+                    f'WARNING: Changes were not applied. A category cannot be its overcategory.')
+                return HttpResponseRedirect(self.get_failure_url())
+            else:
+                self.object = form.save()
+                return HttpResponseRedirect(self.get_success_url())
+        except Exception:
+            self.object = form.save()
+            return HttpResponseRedirect(self.get_success_url())
 
 
 class CategoryDeleteView(generic.edit.DeleteView):
