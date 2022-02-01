@@ -174,6 +174,17 @@ class ItemInOrderCreateView(generic.edit.CreateView):
         self.object = form.save(commit=False)
         self.object.order = Order.objects.latest('id')
 
+        items_in_order = ItemInOrder.objects.filter(order__id=self.object.order.id)
+
+        # Check if item is in the order already
+        for item_in_order in items_in_order:
+            if item_in_order.delivery.id == self.object.delivery.id:
+                messages.add_message(
+                        self.request, messages.SUCCESS,
+                        f'WARNING: You can not add the same item to order. Use the quantity field in Item in order detail view.')
+                        
+                return HttpResponseRedirect(self.get_success_url())
+
         # Check availability
         available = self.object.delivery.quantity
         items = ItemInOrder.objects.filter(delivery=self.object.delivery)
@@ -210,10 +221,23 @@ class AddItemView(ItemInOrderCreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.order = Order.objects.get(id=self.kwargs['pk'])
+        
+        items_in_order = ItemInOrder.objects.filter(order__id=self.object.order.id)
+        
+        # Check if item is in the order already
+        for item_in_order in items_in_order:
+            if item_in_order.delivery.id == self.object.delivery.id:
+                messages.add_message(
+                        self.request, messages.SUCCESS,
+                        f'WARNING: You can not add the same item to order. Use the quantity field in Item in order detail view.')
+
+                return HttpResponseRedirect(self.get_success_url())
+        
 
         # Check availability
         available = self.object.delivery.quantity
         items = ItemInOrder.objects.filter(delivery=self.object.delivery)
+
         for item in items:
             available -= item.quantity
 
