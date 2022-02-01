@@ -206,16 +206,32 @@ class CategoryUpdateView(generic.edit.UpdateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         try:
-            if self.object.name == self.object.overcategory.name:
+            if not self.object.overcategory:
+                self.object = form.save()
+                return HttpResponseRedirect(self.get_success_url())
+
+            category = self.object.overcategory
+            categories = []
+
+            while category:
+                if category.overcategory:
+                    categories.append(category.overcategory.name)
+                category = category.overcategory
+            
+            if self.object.overcategory.name == self.object.name or self.object.name in categories:
                 messages.add_message(
                     self.request, messages.SUCCESS,
-                    f'WARNING: Changes were not applied. A category cannot be its overcategory.')
+                    f'WARNING: Changes were not applied. Define the overcategories correctly.')
                 return HttpResponseRedirect(self.get_failure_url())
             else:
                 self.object = form.save()
                 return HttpResponseRedirect(self.get_success_url())
-        except Exception:
-            self.object = form.save()
+
+        except Exception as e:
+            print(str(e))
+            messages.add_message(
+                    self.request, messages.SUCCESS,
+                    f'Something went wrong.')
             return HttpResponseRedirect(self.get_success_url())
 
 
