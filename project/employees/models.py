@@ -31,7 +31,7 @@ class Employee(models.Model):
     salary = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the salary of the employee.", db_column="placa")
     hours_per_week = models.PositiveIntegerField(validators=[MaxValueValidator(168)], help_text="Please pass the number of hours per week of the employee.", db_column="ilosc_godzin_tyg")
     position = models.ForeignKey(
-        Position, on_delete=models.SET_NULL, null=True, help_text="Please choose the position for the employee", db_column="nazwa_stanowiska")
+        Position, on_delete=models.RESTRICT, null=True, help_text="Please choose the position for the employee", db_column="nazwa_stanowiska")
 
     def save(self, *args, **kwargs):
         self.salary = min(max(round(self.salary, 2), self.position.salary_min),

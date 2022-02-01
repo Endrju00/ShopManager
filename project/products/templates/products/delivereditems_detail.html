@@ -4,7 +4,13 @@
     <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
         <div class="card" style="width: 80%; margin-left: 10%;">
             <div class="card-header">
-              <a href="delete/" class="btn btn-danger" style="float: right; margin-top: 1%;"><span class="fa fa-trash"></span></a>
+              {% if items %}
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Disabled: First, remove the items in orders below" style="float: right; margin-top: 1%;">
+                  <a href="#" class="btn btn-secondary" ><span class="fa fa-trash"></span></a>
+                </span>
+              {% else %}
+                <a href="delete/" class="btn btn-danger" style="float: right; margin-top: 1%;"><span class="fa fa-trash"></span></a>
+              {% endif %}
               <a href="update/" class="btn btn-primary" style="float: right; margin-right: 2%; margin-top: 1%;"><span class="fa fa-pencil"></span></a>
               <h1 class="card-title">{{ object }}</h1>
             </div>
@@ -25,6 +31,20 @@
                 {% endif %}
             </ul>
         </div>
+
+        {% if items %}
+          <br>
+          <div class="card" style="width: 80%; margin-left: 10%;">
+            <div class="card-header">
+              <h1 class="card-title">Connected Items in orders</h1>
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for item in items %}
+                <a class="list-group-item list-group-item-action" href="{% url 'orders:items-detail' item.id %}">{{ item }}</a>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
         <br>
       </div>
 {% endblock %}

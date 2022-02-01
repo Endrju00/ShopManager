@@ -20,6 +20,11 @@ class AddressReportView(generic.ListView):
 class AddressDetailView(generic.DetailView):
     model = Address
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['orders'] = Order.objects.filter(address__id=self.kwargs['pk'])
+        return context
+
 
 class AddressCreateView(generic.edit.CreateView):
     model = Address
@@ -55,23 +60,23 @@ class OrderListView(generic.ListView):
     paginate_by = 10
     template_name = 'orders/list.html'
 
-    def remove_empty_orders(self):
-        orders = list(Order.objects.all())
-        items = tuple(ItemInOrder.objects.all())
+    # def remove_empty_orders(self):
+    #     orders = list(Order.objects.all())
+    #     items = tuple(ItemInOrder.objects.all())
         
-        # Remove orders that have items from the list
-        for item in items:
-            if item.order in orders:
-                orders.remove(item.order)
+    #     # Remove orders that have items from the list
+    #     for item in items:
+    #         if item.order in orders:
+    #             orders.remove(item.order)
         
-        # Delete empty orders
-        for order in orders:
-            messages.add_message(self.request, messages.WARNING, f'Empty order deleted. (Order #{order.id}) ')
-            order.delete()
+    #     # Delete empty orders
+    #     for order in orders:
+    #         messages.add_message(self.request, messages.WARNING, f'Empty order deleted. (Order #{order.id}) ')
+    #         order.delete()
             
 
     def get_context_data(self, **kwargs):
-        self.remove_empty_orders()  
+        # self.remove_empty_orders()  
         context = super().get_context_data(**kwargs)
         context['name'] = 'Orders'
         context['search'] = 'Search for status/client/employee/id...'
@@ -101,6 +106,8 @@ class OrderDetailView(generic.DetailView):
             order__id=self.kwargs['pk'])
         context['payments'] = Payment.objects.filter(
             order__id=self.kwargs['pk'])
+        
+        # funkcja
         with connection.cursor() as cursor:
             cursor.execute(f"SELECT CenaZamowienia ({self.kwargs['pk']})")
             data = cursor.fetchone()
@@ -167,6 +174,17 @@ class ItemInOrderCreateView(generic.edit.CreateView):
         self.object = form.save(commit=False)
         self.object.order = Order.objects.latest('id')
 
+        items_in_order = ItemInOrder.objects.filter(order__id=self.object.order.id)
+
+        # Check if item is in the order already
+        for item_in_order in items_in_order:
+            if item_in_order.delivery.id == self.object.delivery.id:
+                messages.add_message(
+                        self.request, messages.SUCCESS,
+                        f'WARNING: You can not add the same item to order. Use the quantity field in Item in order detail view.')
+                        
+                return HttpResponseRedirect(self.get_success_url())
+
         # Check availability
         available = self.object.delivery.quantity
         items = ItemInOrder.objects.filter(delivery=self.object.delivery)
@@ -203,10 +221,23 @@ class AddItemView(ItemInOrderCreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.order = Order.objects.get(id=self.kwargs['pk'])
+        
+        items_in_order = ItemInOrder.objects.filter(order__id=self.object.order.id)
+        
+        # Check if item is in the order already
+        for item_in_order in items_in_order:
+            if item_in_order.delivery.id == self.object.delivery.id:
+                messages.add_message(
+                        self.request, messages.SUCCESS,
+                        f'WARNING: You can not add the same item to order. Use the quantity field in Item in order detail view.')
+
+                return HttpResponseRedirect(self.get_success_url())
+        
 
         # Check availability
         available = self.object.delivery.quantity
         items = ItemInOrder.objects.filter(delivery=self.object.delivery)
+
         for item in items:
             available -= item.quantity
 

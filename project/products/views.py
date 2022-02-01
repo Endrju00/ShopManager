@@ -3,8 +3,9 @@ from django.views import generic
 from django.shortcuts import render
 from django.db.models import Q
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 
-
+from orders.models import ItemInOrder
 from .models import Category, DeliveredItems, Producer, Product, Wholesaler
 
 
@@ -198,6 +199,40 @@ class CategoryUpdateView(generic.edit.UpdateView):
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Category was updated successfully.')
         return reverse('products:category-detail', kwargs={'pk': self.object.id})
+    
+    def get_failure_url(self):
+        return reverse('products:category-detail', kwargs={'pk': self.object.id})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        try:
+            if not self.object.overcategory:
+                self.object = form.save()
+                return HttpResponseRedirect(self.get_success_url())
+
+            category = self.object.overcategory
+            categories = []
+
+            while category:
+                if category.overcategory:
+                    categories.append(category.overcategory.name)
+                category = category.overcategory
+            
+            if self.object.overcategory.name == self.object.name or self.object.name in categories:
+                messages.add_message(
+                    self.request, messages.SUCCESS,
+                    f'WARNING: Changes were not applied. Define the overcategories correctly.')
+                return HttpResponseRedirect(self.get_failure_url())
+            else:
+                self.object = form.save()
+                return HttpResponseRedirect(self.get_success_url())
+
+        except Exception as e:
+            print(str(e))
+            messages.add_message(
+                    self.request, messages.SUCCESS,
+                    f'Something went wrong.')
+            return HttpResponseRedirect(self.get_success_url())
 
 
 class CategoryDeleteView(generic.edit.DeleteView):
@@ -232,6 +267,12 @@ class ProductListView(generic.ListView):
 
 class ProductDetailView(generic.DetailView):
     model = Product
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['delivered'] = DeliveredItems.objects.filter(
+            product__id=self.kwargs['pk'])
+        return context
 
 
 class ProductCreateView(generic.edit.CreateView):
@@ -297,6 +338,12 @@ class DeliveredItemsReportView(generic.ListView):
 
 class DeliveredItemsDetailView(generic.DetailView):
     model = DeliveredItems
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['items'] = ItemInOrder.objects.filter(delivery__id=self.kwargs['pk'])
+        return context
+
 
 
 class DeliveredItemsCreateView(generic.edit.CreateView):

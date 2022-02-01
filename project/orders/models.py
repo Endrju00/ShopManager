@@ -32,10 +32,10 @@ class Order(models.Model):
     status = models.CharField(max_length=100, help_text="Please pass the status of the order.", db_column="status")
     comment = models.TextField(max_length=1000, blank=True, null=True, help_text="Optional: Please add some comments.", db_column="komentarz")
 
-    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, help_text="Please choose the address.", db_column="id_adresu")
-    client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True, help_text="Please select the client. If client do not exist define the client in Clients section.", db_column="id_klienta")
+    address = models.ForeignKey(Address, on_delete=models.RESTRICT, null=True, help_text="Please choose the address.", db_column="id_adresu")
+    client = models.ForeignKey(Client, on_delete=models.RESTRICT, null=True, help_text="Please select the client. If client do not exist define the client in Clients section.", db_column="id_klienta")
     employee = models.ForeignKey(
-        Employee, on_delete=models.SET_NULL, null=True, help_text="Please select the employee responsible for the order.", db_column="id_pracownika")
+        Employee, on_delete=models.RESTRICT, null=True, help_text="Please select the employee responsible for the order.", db_column="id_pracownika")
 
     def __str__(self):
         return f'#{self.id} Status: {self.status}'
@@ -50,7 +50,7 @@ class ItemInOrder(models.Model):
 
     order = models.ForeignKey(Order, on_delete=models.CASCADE, db_column="numer_zamowienia")
     delivery = models.ForeignKey(
-        DeliveredItems, on_delete=models.SET_NULL, null=True, help_text="Please select the delivery of the product.", db_column="id_dostawy")
+        DeliveredItems, on_delete=models.RESTRICT, null=True, help_text="Please select the delivery of the product.", db_column="id_dostawy")
 
     def __str__(self):
         if not self.delivery:
@@ -67,7 +67,7 @@ class Payment(models.Model):
     date = models.DateTimeField(default=timezone.now, help_text="Please pass the date of the payment.", db_column="data")
     amount = models.FloatField(validators=[MinValueValidator(0)],  help_text="Please pass the amount of the payment.", db_column="kwota")
 
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True,  help_text="Please select the order for which the payment was made.", db_column="numer_zamowienia")
+    order = models.ForeignKey(Order, on_delete=models.RESTRICT, null=True,  help_text="Please select the order for which the payment was made.", db_column="numer_zamowienia")
 
     def __str__(self):
         if self.order:

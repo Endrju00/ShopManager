@@ -86,7 +86,7 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'shopmanager_db',
+        'NAME': 'shopmanager_db2',
         'USER': 'root',
         'PASSWORD': 'password',
         'HOST': 'localhost',
