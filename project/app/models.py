@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MinLengthValidator, MinValueValidator, MaxValueValidator
-
+from .validators import validate_phone_number
 
 class Adres(models.Model):
     miasto = models.CharField(max_length=100, help_text="Please pass the name of the city.")
@@ -63,8 +63,8 @@ class Kategoria(models.Model):
 class Klient(models.Model):
     imie = models.CharField(max_length=100, help_text="Please pass the client's name.")
     nazwisko = models.CharField(max_length=100, help_text="Please pass the client's surname.")
-    nr_telefonu = models.CharField(max_length=9, validators=[MinLengthValidator(9)], help_text="Please pass the client's phone number.")
-    email = models.CharField(max_length=254, blank=True, null=True, help_text="Optional: Please pass the client's email.")
+    nr_telefonu = models.CharField(max_length=9, validators=[MinLengthValidator(9), validate_phone_number], help_text="Please pass the client's phone number.")
+    email = models.EmailField(max_length=254, blank=True, null=True, help_text="Optional: Please pass the client's email.")
     kod_karty_rabatowej = models.CharField(max_length=100, blank=True, null=True, help_text="Optional: Please pass the client's discount card code.")
 
     class Meta:
@@ -100,8 +100,8 @@ class Stanowisko(models.Model):
 class Pracownik(models.Model):
     imie = models.CharField(max_length=100, help_text="Please pass the name of the employee.")
     nazwisko = models.CharField(max_length=100, help_text="Please pass the surname of the employee.")
-    nr_telefonu = models.CharField(max_length=9, validators=[MinLengthValidator(9)], help_text="Please pass the phone number of the employee.")
-    email = models.CharField(max_length=254, blank=True, null=True, help_text="Optional: Please pass the email of the employee.")
+    nr_telefonu = models.CharField(max_length=9, validators=[MinLengthValidator(9), validate_phone_number], help_text="Please pass the phone number of the employee.")
+    email = models.EmailField(max_length=254, blank=True, null=True, help_text="Optional: Please pass the email of the employee.")
     placa = models.FloatField(validators=[MinValueValidator(0)], help_text="Please pass the salary of the employee.")
     ilosc_godzin_tyg = models.PositiveIntegerField(validators=[MaxValueValidator(168)], help_text="Please pass the number of hours per week of the employee.")
     id_stanowiska = models.ForeignKey('Stanowisko', models.DO_NOTHING, db_column='id_stanowiska', help_text="Please choose the position for the employee")
