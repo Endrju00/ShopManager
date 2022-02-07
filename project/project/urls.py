@@ -23,10 +23,7 @@ urlpatterns = [
     path('', views.HomePageView.as_view(), name='homepage'),
     path('about/', views.AboutPageView.as_view(), name='aboutpage'),
     path('report/', views.ReportPageView.as_view(), name='reportpage'),
-    path('clients/', include('clients.urls')),
-    path('employees/', include('employees.urls')),
-    path('orders/', include('orders.urls')),
-    path('products/', include('products.urls')),
+    path('app/', include('app.urls')),
     path('admin/', admin.site.urls),
 ]
 

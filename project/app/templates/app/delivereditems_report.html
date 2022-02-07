@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content%}
+
+  <div style="width: 100%; margin-left: 2%;">
+    {% include "report_list.html" %}
+    <div style="width: 75%; margin-left: 21%;">
+        <h2>Delivered Items</h2>
+        <br>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Unit purchase price</th>
+                <th scope="col">Unit selling price</th>
+                <th scope="col">Wholesaler</th>
+                <th scope="col">Product</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for obj in object_list %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{ obj.data }}</td>
+                  <td>{{ obj.ilosc }}</td>
+                  <td>{{ obj.cena_jednostkowa_zakupu }}</td>
+                  <td>{{ obj.cena_jednostkowa_sprzedazy }}</td>
+                  <td>{{ obj.id_hurtownii }}</td>
+                  <td>{{ obj.id_produktu }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="width: 90%; margin-left: 5%; font-size:1.2rem;">
+        <div class="card" style="width: 80%; margin-left: 10%;">
+            <div class="card-header">
+              {% if payments %}
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Disabled: First, remove the payments below" style="float: right; margin-top: 1%;">
+                  <a href="#" class="btn btn-secondary" ><span class="fa fa-trash"></span></a>
+                </span>
+              {% else %}
+                <a href="delete/" class="btn btn-danger" style="float: right; margin-top: 1%;"><span class="fa fa-trash"></span></a>
+              {% endif %}
+              
+              <a href="update/" class="btn btn-primary" style="float: right; margin-right: 2%; margin-top: 1%;"><span class="fa fa-pencil"></span></a>
+              <a href="add/" class="btn btn-success" style="float: right; margin-right: 2%; margin-top: 1%;">Add item <span class="fa fa-plus" ></span></a>
+              <h1 class="card-title">{{ object }}</h1>
+              <p class="card-text">{{ object.komentarz }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Date:</strong> {{ object.data_zlozenia }}</li>
+              <li class="list-group-item"><strong>Status:</strong> {{ object.status }}</li>
+
+              {% if object.id_klienta %}
+                <a class="list-group-item list-group-item-action" href="{% url 'app:client-detail' object.id_klienta.id %}"><strong>Client:</strong> {{ object.id_klienta }}</a>
+              {% else %}
+                <li class="list-group-item"><strong>Client:</strong> Deleted</li>
+              {% endif %}
+
+              {% if object.id_adresu %}
+                <a class="list-group-item list-group-item-action" href="{% url 'app:address-detail' object.id_adresu.id %}"><strong>Address:</strong> {{ object.id_adresu }}</a>
+              {% else %}
+                <li class="list-group-item"><strong>Address:</strong> Deleted</li>
+              {% endif %}
+
+              {% if object.id_pracownika %}
+                <a class="list-group-item list-group-item-action" href="{% url 'app:employee-detail' object.id_pracownika.id %}"><strong>Employee:</strong> {{ object.id_pracownika }}</a>
+              {% else %}
+                <li class="list-group-item"><strong>Employee:</strong> Deleted</li>
+              {% endif %}
+            </ul>
+        </div>
+
+        {% if items %}
+        <br>
+        <div class="card" style="width: 80%; margin-left: 10%;">
+          <div class="card-header">
+            <h1 class="card-title" style="float: left;">Items in order</h1>
+            <h1 style="float: right;"><span class="badge badge-secondary">{{price.0}} PLN</span></h1>
+          </div>
+          <ul class="list-group list-group-flush">
+            {% for item in items %}
+              <a class="list-group-item list-group-item-action" href="{% url 'app:items-detail' item.id %}">{{ item }}</a>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        {% if payments %}
+        <br>
+        <div class="card" style="width: 80%; margin-left: 10%;">
+          <div class="card-header">
+            <h1 class="card-title">Connected Payments</h1>
+          </div>
+          <ul class="list-group list-group-flush">
+            {% for payment in payments %}
+              <a class="list-group-item list-group-item-action" href="{% url 'app:payment-detail' payment.id %}">{{ payment }}</a>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        <br>
+    </div>
+{% endblock %}
+

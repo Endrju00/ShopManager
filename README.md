@@ -1,48 +1,28 @@
-# ShopManager
+# Projekt-ZBD
 
-
-## Table of contents
-* [General info](#general-info)
-* [Database diagrams](#database-diagrams)
-* [Technologies](#technologies)
-* [First configuration](#first-configuration)
-
-## General info
-The application is used to manage the store. This system will enable the storage of information about products, their stock in the warehouse, orders from customers, information about customers, employees and wholesalers from which the store orders the goods. The user who uses the application will be able to define, view and edit this data. For example, it can enter information about new orders, products, and also change, for example, employee wages.
-
-## Database diagrams
-
-### Entity diagram
-![](diagrams/entity_diagram/diagram_zwiazkow_encji.png)
-
-### Relationship diagram
-![](diagrams/relationship_diagram/schemat_relacyjny.png)
-
-## Technologies
-* Python
-* Django
-* Bootstrap
-* HTML5
-* CSS3
-
-## First configuration
-1. Install prerequisites.
-> pip install -r requirements.txt
-2. [Download](https://downloads.mariadb.org/) and install MariaDB.
-3. Set password, name of the db and port in project/project/settings.py
-4. Add new environment variable to Path: *your_path_to*\MariaDB 10.6\bin
-5. Restart cmd and run:
+### Szybka instalacja
+1. Stwórz bazę danych <code>MariaDB</code>.
 > mysql -u root -p
-6. Create and configure database.
-> CREATE DATABASE shopmanager_db;
 
-> exit 
-7. Create function and procedure:
-> mysql -u root -p shopmanager_db < help.sql
+> create database shopmanager_db4;
+
 > exit
-8. Go to project/
-> cd project
-9. Migrate:
-> python manage.py migrate
-10. Run the application:
+
+2. Stwórz tabele zgodne ze [skryptem ddl](https://github.com/Endrju00/Projekt-ZBD/blob/main/diagrams/relationship_diagram/relacja.ddl).
+> cd diagrams/relationship_diagram
+
+> mysql -u root -p shopmanager_db4 < relacja.ddl
+3. Wgraj procedurę i funkcję z [additional.sql](https://github.com/Endrju00/Projekt-ZBD/blob/main/diagrams/relationship_diagram/additional.sql).
+> mysql -u root -p shopmanager_db4 < additional.sql
+4. Stwórz wirtualne środowisko i zainstaluj biblioteki.
+> cd ../../
+
+>conda create --name zbd python=3.7
+
+> conda activate zbd
+
+> pip install -r requirements.txt
+4. Uruchom projekt.
+> cd project 
+
 > python manage.py runserver

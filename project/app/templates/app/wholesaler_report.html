@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content%}
+
+  <div style="width: 100%; margin-left: 2%;">
+    {% include "report_list.html" %}
+    <div style="width: 75%; margin-left: 21%;">
+        <h2>Wholesalers</h2>
+        <br>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for obj in object_list %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{ obj.nazwa }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+  </div>
+
+{% endblock %}

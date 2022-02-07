@@ -1,5 +1,6 @@
 from django.views.generic.base import TemplateView
 from django.shortcuts import render
+from django.http import HttpResponse
 
 
 class HomePageView(TemplateView):
@@ -12,13 +13,15 @@ class AboutPageView(TemplateView):
 
 class ReportPageView(TemplateView):
     template_name = "report.html"
-    
+
 
 def error400Handler(request, exception):
     return render(request, 'error.html', context={'code': 400})
 
+
 def error404Handler(request, exception):
     return render(request, 'error.html', context={'code': 404})
+
 
 def error500Handler(request):
     return render(request, 'error.html', context={'code': 500})

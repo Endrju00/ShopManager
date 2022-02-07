@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,7 +21,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--j03z08&@xv#ljz(xbedi=s69=(7y*w9b-_9ph(vcv#g*)o(sq'
+SECRET_KEY = 'django-insecure-ah@1kt=6s+5x++qhc+!tn46jcu0v4)=!@yy)^c7w-1w1efwt5&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -31,10 +32,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
-    'clients.apps.ClientsConfig',
-    'employees.apps.EmployeesConfig',
-    'orders.apps.OrdersConfig',
-    'products.apps.ProductsConfig',
+    'app.apps.AppConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -79,14 +77,9 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # },
-
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'shopmanager_db2',
+        'NAME': 'shopmanager_db4',
         'USER': 'root',
         'PASSWORD': 'password',
         'HOST': 'localhost',
